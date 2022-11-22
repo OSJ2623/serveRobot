@@ -31,8 +31,8 @@ public class MapPane extends javax.swing.JPanel {
     	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map1.png");
     	g.drawImage(map, 0, 0, 600, 540, this);
     	//°æ·Î
-    	//java.awt.Image node = Toolkit.getDefaultToolkit().getImage("./images/node1.png");
-    	//g.drawImage(node, 0, 0, 600, 540, this);
+    	java.awt.Image node = Toolkit.getDefaultToolkit().getImage("./images/node.png");
+    	g.drawImage(node, 0, 0, 600, 540, this);
     	
     }
 
