@@ -17,7 +17,7 @@ public class MainFrame extends JFrame{
         // 창 최소크기 설정(맵이 안찌그러지도록)
         double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //화면배율
         double minX = 1000*magn;
-        double minY = 682*magn;	//(540+40+60)+42
+        double minY = 722*magn;	//(580+40+60)+42
         setMinimumSize(new Dimension((int)minX, (int)minY));
         //setResizable(false);
         //setLocationRelativeTo(null);	//가운데에 창 뜨게
@@ -54,7 +54,7 @@ public class MainFrame extends JFrame{
         emptyPane2.setPreferredSize(new Dimension(1000, 60));
         
         centerPane.add(mapPane);
-        mapPane.setPreferredSize(new Dimension(600, 540));
+        mapPane.setPreferredSize(new Dimension(600, 580));
         
         //frame.setUndecorated(true);
         frame.pack();

@@ -23,16 +23,14 @@ public class MapPane extends javax.swing.JPanel {
     	
     	//이미지 들어갈 위치 확인
     	//g.setColor(Color.WHITE);
-    	//g.fillRect(0, 0, 720, 480);
+    	//g.fillRect(0, 0, 600, 580);
     	//g.setColor(Color.BLACK);
-    	//g.drawRect(0, 0, 720, 479);
+    	//g.drawRect(0, 0, 600, 579);
     	
-    	//맵 이미지 (600*540)
-    	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map1.png");
-    	g.drawImage(map, 0, 0, 600, 540, this);
-    	//경로
-    	java.awt.Image node = Toolkit.getDefaultToolkit().getImage("./images/node.png");
-    	g.drawImage(node, 0, 0, 600, 540, this);
+    	//맵 이미지 (600*580)
+    	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map.png");
+    	g.drawImage(map, 0, 0, 600, 580, this);
+    	
     	
     }
 
