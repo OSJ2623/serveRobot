@@ -143,26 +143,26 @@ public class Queueing {
 
 		
 		//we return operation and table number to other class of same project
-		System.out.println(opr);		
-
+		System.out.println("로봇-"+opr);		
+		
+		if(opr == null) {
+			return null;	// 여기까지 왔는데도 null인 경우가 안걸러지는 경우가 있나봐요 오류가 한 번 떴었어요
+		}
 		str1 =opr.substring(0, opr.indexOf("."));
 		str2 = opr.substring(opr.indexOf(".")+1);
 		String[] str = {str1, str2};
 		if(str1.equals("setting")) {
 //			table_state[Integer.parseInt(str2)-1]=1;	// Guest 생성할 때 바꿔서 우선 없애봤습니다
 			isSettingDone[Integer.parseInt(str2)-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-			dish -= 1;
-			System.out.println("세팅시작");	
+			dish -= 1;	
 		}
 		if(str1.equals("serving")) {
 			isServingDone[Integer.parseInt(str2)-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-			System.out.println("서빙시작");
 		}
 		if(str1.equals("clean")) {
-			table_state[Integer.parseInt(str2)-1]=0;
+			table_state[Integer.parseInt(str2)-1]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
 			isSettingDone[Integer.parseInt(str2)-1] = false;
 			isServingDone[Integer.parseInt(str2)-1] = false;
-			System.out.println("클린시작");
 		}
 
 		

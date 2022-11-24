@@ -57,7 +57,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 		{
 			String[] temp_str = Queueing.out();
 			
-			 
 			//temporary check
 			if(temp_str!=null)
 			{
@@ -66,7 +65,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 			}
 			else
 			{
-				System.out.println("Running");
+				System.out.println("로봇-Running");
 			}
 			
 			Thread.sleep(3000);
@@ -99,8 +98,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
         emptyPane1 = new JPanel();
         emptyPane2 = new JPanel();
         
-        // 시간 띄우기 테스트
-        timeTestLabel = new JLabel("00 : 00 : 00");
+        // 시간 띄우기
+        timeTestLabel = new JLabel("00 : 00");
         emptyPane1.add(timeTestLabel);
         new Thread(this).start();
         
@@ -137,11 +136,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
  	   
  	   while(true) {
  		   Calendar time = Calendar.getInstance();
- 		   int hh, mm, ss;
- 		   hh = time.get(Calendar.HOUR_OF_DAY);
- 	       mm = time.get(Calendar.MINUTE);
- 	       ss = time.get(Calendar.SECOND);
- 		   timeTestLabel.setText(hh + "시" + mm + "분" + ss + "초");
+ 		   int mm, ss;
+ 		   mm = time.get(Calendar.MINUTE);
+ 		   ss = time.get(Calendar.SECOND);
+ 		   timeTestLabel.setText(mm + ":" + ss);
  		   
  		   try {
  			   Thread.sleep(1000);	// 1 second
@@ -179,14 +177,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
     }
     
     
-    //MapPane mapPane;
-    //JPanel centerPane;
     JPanel emptyPane1;
     JPanel emptyPane2;
     JLabel timeTestLabel;
     JButton guestEntranceBtn;
     
-    //public static int table_state[] = {0,0,0,0,0,0};
     Guest[] guest;
 
 }
