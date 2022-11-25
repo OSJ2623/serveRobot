@@ -19,12 +19,11 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame implements Runnable, ActionListener{
 	
-	public static void main(String args[]) throws Exception {	// out()À» À§ÇØ throws Exception Ãß°¡
+	public static void main(String args[]) throws Exception {	// out()ì„ ìœ„í•´ throws Exception ì¶”ê°€
     	
 		MainFrame frame = new MainFrame();
 		MapPane mapPane = new MapPane();
 		JPanel centerPane = new JPanel();
-
 		frame.init();
 		centerPane.add(mapPane);
         mapPane.setPreferredSize(new Dimension(600, 580));
@@ -40,7 +39,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				{400, 380},
 				{400, 280}
 		};
-		mapPane.setRobot(1, position);
+		int[] dest1 = {400, 280};
+		mapPane.setRobot(1, position, dest1);
 		int[][] position2 = {
 				{200, 80},
 				{200,180},
@@ -49,7 +49,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				{300, 80},
 				{400,80}
 		};
-		mapPane.setRobot(2, position2);
+		int[] dest2 = {400, 80};
+		mapPane.setRobot(2, position2, dest2);
 		
 		
 		// Queue and guest test
@@ -61,11 +62,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 			if(temp_str!=null)
 			{
 //				System.out.println(temp_str[0]);
-//				System.out.println(temp_str[1]);//use to parseInt, so String -> int 
+//				System.out.println(temp_str[1]);//use to parseInt, so String -> int
 			}
 			else
 			{
-				System.out.println("·Îº¿-Running");
+				System.out.println("ë¡œë´‡-Running");
 			}
 			
 			Thread.sleep(3000);
@@ -76,16 +77,16 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
     public void init() {
     	// initialize GUI
         
-        // Ã¢ ÃÖ¼ÒÅ©±â ¼³Á¤(¸ÊÀÌ ¾ÈÂî±×·¯Áöµµ·Ï)
-        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //È­¸é¹èÀ²
+        // ì°½ ìµœì†Œí¬ê¸° ì„¤ì •(ë§µì´ ì•ˆì°Œê·¸ëŸ¬ì§€ë„ë¡)
+        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //í™”ë©´ë°°ìœ¨
         double minX = 1000*magn;
         double minY = 722*magn;	//(580+40+60)+42
         setMinimumSize(new Dimension((int)minX, (int)minY));
         //setResizable(false);
-        //setLocationRelativeTo(null);	//°¡¿îµ¥¿¡ Ã¢ ¶ß°Ô
+        //setLocationRelativeTo(null);	//ê°€ìš´ë°ì— ì°½ ëœ¨ê²Œ
         //System.out.println("Frame Size = " + getSize());
         
-        // ÀüÃ¼ È­¸é
+        // ì „ì²´ í™”ë©´
         GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
         device.setFullScreenWindow(this);
@@ -98,15 +99,15 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
         emptyPane1 = new JPanel();
         emptyPane2 = new JPanel();
         
-        // ½Ã°£ ¶ç¿ì±â
+        // ì‹œê°„ ë„ìš°ê¸°
         timeTestLabel = new JLabel("00 : 00");
         emptyPane1.add(timeTestLabel);
         new Thread(this).start();
         
-        // guest Á¤º¸ µé¾î°¥ ÀÚ¸® »ı¼º
+        // guest ì •ë³´ ë“¤ì–´ê°ˆ ìë¦¬ ìƒì„±
         guest = new Guest[6];
         
-        // ¼Õ´Ô ÀÔÀå ¹öÆ°
+        // ì†ë‹˜ ì…ì¥ ë²„íŠ¼
         guestEntranceBtn = new JButton();
         guestEntranceBtn.setText("Accept Guests");
         guestEntranceBtn.addActionListener(this);
@@ -132,7 +133,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
     // Real-time updates
     public void run()
     {
- 	   //¹İº¹xÀÌ¸é ¹İº¹¹® ¹Û¿¡
+ 	   //ë°˜ë³µxì´ë©´ ë°˜ë³µë¬¸ ë°–ì—
  	   
  	   while(true) {
  		   Calendar time = Calendar.getInstance();
@@ -155,17 +156,17 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
        // TODO Auto-generated method stub
  	  
  	   if (e.getSource() == guestEntranceBtn) {
- 		   // ºó Å×ÀÌºí Ã¼Å©
+ 		   // ë¹ˆ í…Œì´ë¸” ì²´í¬
  		   for (int i = 0; i < 6; i++) { 
  			   if (Queueing.table_state[i] == 0) {
- 				   // ÀÌ Å×ÀÌºí ³Ñ¹ö¸¦ ³Ñ°ÜÁÖ°í guest »ı¼º.  Å×ÀÌºí ¾É´Â ÀÚ¸®´Â ÀÏ´Ü ·£´ı ¾Æ´Ô
- 				   guest[i] = new Guest(i);	// guest »ı¼º, ÃÊ±âÈ­
- 				   guest[i].start();	// guest thread ½ÃÀÛ
- 				  Queueing.table_state[i] = 1;	// ÀÚ¸® Âü
+ 				   // ì´ í…Œì´ë¸” ë„˜ë²„ë¥¼ ë„˜ê²¨ì£¼ê³  guest ìƒì„±.  í…Œì´ë¸” ì•‰ëŠ” ìë¦¬ëŠ” ì¼ë‹¨ ëœë¤ ì•„ë‹˜
+ 				   guest[i] = new Guest(i);	// guest ìƒì„±, ì´ˆê¸°í™”
+ 				   guest[i].start();	// guest thread ì‹œì‘
+ 				  Queueing.table_state[i] = 1;	// ìë¦¬ ì°¸
  				  break;
  			   }
  			   else {
- 				   if (i == 5) {	// ´Ù Ã¡À¸¸é ¸ø³Ö°Ô. 
+ 				   if (i == 5) {	// ë‹¤ ì°¼ìœ¼ë©´ ëª»ë„£ê²Œ. 
  					   JOptionPane.showMessageDialog(null, "The restaurant is full","alert", JOptionPane.WARNING_MESSAGE);
  				   }
  			   }
