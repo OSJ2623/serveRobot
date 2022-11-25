@@ -197,7 +197,7 @@ class servingCountThread extends Thread{
 				// 서빙이 3분 넘게 안가고 있으면 queue에 알려주기	(제한시간말고 일단 이렇게)
 				Queueing.message = "serving." + String.valueOf(myG.tableNum);
 				Queueing.priority();
-				System.out.println("~ " + myG.tableNum + "번 세팅 제한시간 넘김 ~");
+				System.out.println("~ " + myG.tableNum + "번 서빙 제한시간 넘김 ~");
 			}
 			
 			try {

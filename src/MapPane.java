@@ -107,14 +107,14 @@ public class MapPane extends JPanel implements ActionListener{
     	//g.drawRect(0, 0, getWidth(), getHeight());
     	
     	//이미지 들어갈 위치 확인
-    	//g.setColor(Color.WHITE);
-    	//g.fillRect(0, 0, 600, 580);
-    	//g.setColor(Color.BLACK);
-    	//g.drawRect(0, 0, 600, 579);
+//    	g.setColor(Color.WHITE);
+//    	g.fillRect(0, 0, 600, 580);
+//    	g.setColor(Color.BLACK);
+//    	g.drawRect(0, 0, 600, 579);
     	
     	//맵 이미지 (600*580)
-    	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map.png");
-    	g.drawImage(map, 0, 0, 600, 580, this);
+//    	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map.png");
+//    	g.drawImage(map, 0, 0, 600, 580, this);
     	
     	Graphics2D g2D = (Graphics2D) g;
     	g2D.drawImage(robot_front1, x1, y1, null);
@@ -232,71 +232,76 @@ public class MapPane extends JPanel implements ActionListener{
     private void initComponents() {
     	// 아래는 무시해주세요... 멋진 패널이 되어 돌아올게요...
 
-//    	table1 = new JPanel();
-//    	table2 = new JPanel();
-//    	table3 = new JPanel();
-//    	table4 = new JPanel();
-//    	table5 = new JPanel();
-//    	table6 = new JPanel();
-//    	table1.setBackground(Color.CYAN);
-//    	table2.setBackground(Color.BLACK);
-//    	table3.setBackground(Color.CYAN);
-//    	table4.setBackground(Color.BLACK);
-//    	table5.setBackground(Color.CYAN);
-//    	table6.setBackground(Color.BLACK);
-//
-//    	javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-//    	this.setLayout(layout);
-//    	layout.setHorizontalGroup(
-//    			layout.createSequentialGroup()
-//    			.addGroup(layout.createParallelGroup()
-//    					.addComponent(table1, 120, 120, 120)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table4, 120, 120, 120))
-//    			.addGap(80, 80, 80)
-//    			.addGroup(layout.createParallelGroup()
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table2, 120, 120, 120)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table5, 120, 120, 120)
-//    					.addGap(80, 80, 80))
-//    			.addGap(80, 80, 80)
-//    			.addGroup(layout.createParallelGroup()
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table3, 120, 120, 120)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table6, 120, 120, 120)
-//    					.addGap(80, 80, 80))
-//
-//    			);
-//        layout.setVerticalGroup(
-//        		layout.createSequentialGroup()
-//    			.addGroup(layout.createParallelGroup()
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table1, 60, 60, 60)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table2, 60, 60, 60)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table3, 60, 60, 60)
-//    					.addGap(80, 80, 80))
-//    			.addGap(140, 140, 140)
-//    			.addGroup(layout.createParallelGroup()
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table4, 60, 60, 60)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table5, 60, 60, 60)
-//    					.addGap(80, 80, 80)
-//    					.addComponent(table6, 60, 60, 60)
-//    					.addGap(80, 80, 80))
-//        );
+    	serveBar = new JPanel();
+    	kitchen = new JPanel();
+    	table1 = new JPanel();
+    	table2 = new JPanel();
+    	table3 = new JPanel();
+    	table4 = new JPanel();
+    	table5 = new JPanel();
+    	table6 = new JPanel();
+    	serveBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+    	serveBar.setBackground(Color.WHITE);
+    	kitchen.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+    	kitchen.setBackground(Color.WHITE);
+    	table1.setBackground(Color.CYAN);
+    	table2.setBackground(Color.BLACK);
+    	table3.setBackground(Color.CYAN);
+    	table4.setBackground(Color.BLACK);
+    	table5.setBackground(Color.CYAN);
+    	table6.setBackground(Color.BLACK);
+
+    	setBackground(Color.WHITE);
+    	javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    	this.setLayout(layout);
+    	layout.setHorizontalGroup(
+    			layout.createParallelGroup()
+    			.addGroup(layout.createSequentialGroup()
+    					.addGap(140, 140, 140)
+    					.addComponent(serveBar, 120, 120, 120)
+    					.addGap(80, 80, 80)
+    					.addComponent(kitchen, 120, 120, 120))
+    			.addGroup(layout.createSequentialGroup()
+    	    			.addGap(40, 40, 40)
+    	    			.addGroup(layout.createParallelGroup()
+    	    					.addComponent(table1, 120, 120, 120)
+    	    					.addComponent(table4, 120, 120, 120))
+    	    			.addGap(80, 80, 80)
+    	    			.addGroup(layout.createParallelGroup()
+    	    					.addComponent(table2, 120, 120, 120)
+    	    					.addComponent(table5, 120, 120, 120))
+    	    			.addGap(80, 80, 80)
+    	    			.addGroup(layout.createParallelGroup()
+    	    					.addComponent(table3, 120, 120, 120)
+    	    					.addComponent(table6, 120, 120, 120))
+    					)
+    			);
+        layout.setVerticalGroup(
+        		layout.createSequentialGroup()
+        		.addGroup(layout.createParallelGroup()
+    					.addComponent(serveBar, 40, 40, 40)
+    					.addComponent(kitchen, 40, 40, 40))
+        		.addGap(180, 180, 180)
+    			.addGroup(layout.createParallelGroup()
+    					.addComponent(table1, 120, 120, 120)
+    					.addComponent(table2, 120, 120, 120)
+    					.addComponent(table3, 120, 120, 120))
+    			.addGap(80, 80, 80)
+    			.addGroup(layout.createParallelGroup()
+    					.addComponent(table4, 120, 120, 120)
+    					.addComponent(table5, 120, 120, 120)
+    					.addComponent(table6, 120, 120, 120))
+        );
     }
     
     
-//    JPanel table1;
-//    JPanel table2;
-//    JPanel table3;
-//    JPanel table4;
-//    JPanel table5;
-//    JPanel table6;
+    JPanel table1;
+    JPanel table2;
+    JPanel table3;
+    JPanel table4;
+    JPanel table5;
+    JPanel table6;
+    JPanel serveBar;
+    JPanel kitchen;
     
 }
