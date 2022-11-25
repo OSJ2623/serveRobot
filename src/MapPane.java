@@ -62,7 +62,7 @@ public class MapPane extends JPanel implements ActionListener{
         timer.start();
     }
     
-    public void setRobot(int robot, int[][] position, int[] dest) { //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public void setRobot(int robot, int[][] position, int[] dest) { //¸ñÀûÁö Á¤º¸
     	this.robot = robot;
     	
     	if(robot == 1) {
@@ -105,17 +105,17 @@ public class MapPane extends JPanel implements ActionListener{
     public void paint(Graphics g){
     	super.paint(g);
     	
-    	//mapPane Å©ï¿½ï¿½
+    	//mapPane Å©±â
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
     	
-    	//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½ï¿½Ä¡ È®ï¿½ï¿½
+    	//ÀÌ¹ÌÁö µé¾î°¥ À§Ä¡ È®ÀÎ
 //    	g.setColor(Color.WHITE);
 //    	g.fillRect(0, 0, 600, 580);
 //    	g.setColor(Color.BLACK);
 //    	g.drawRect(0, 0, 600, 579);
     	
-    	//ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (600*580)
+    	//¸Ê ÀÌ¹ÌÁö (600*580)
 //    	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map.png");
 //    	g.drawImage(map, 0, 0, 600, 580, this);
     	
@@ -140,7 +140,7 @@ public class MapPane extends JPanel implements ActionListener{
     	}
 		y = y+yVel;
 		*/
-//    	System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: "+ temp1[0] + "," + temp1[1]);
+//    	System.out.println("¸¶Áö¸·: "+ temp1[0] + "," + temp1[1]);
     	
     	if(flag1 == 0) {
         	p1 = way1.poll();
@@ -153,10 +153,10 @@ public class MapPane extends JPanel implements ActionListener{
 //    	System.out.println(p1);
     	
 		if(p1 != null) {
-//			System.out.println("ï¿½ï¿½ï¿½ï¿½x: " + p1.x + ", ï¿½ï¿½ï¿½ï¿½x: " + (x1+robot_front1.getWidth(null)/2)
-//					+ ",ï¿½ï¿½ï¿½ï¿½ y: " + p1.y +", ï¿½ï¿½ï¿½ï¿½ y: " +(y1+robot_front1.getHeight(null)/2));
+//			System.out.println("°¡´Âx: " + p1.x + ", ÇöÀçx: " + (x1+robot_front1.getWidth(null)/2)
+//			+ ",°¡´Â y: " + p1.y +", ÇöÀç y: " +(y1+robot_front1.getHeight(null)/2));
 			
-			if(p1.x != (x1+robot_front1.getWidth(null)/2)) { //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ xï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
+			if(p1.x != (x1+robot_front1.getWidth(null)/2)) { //¸¸¾à ÇöÀç À§Ä¡°¡ xÁÂÇ¥¿Í °°Áö ¾Ê´Ù¸é
 				flag1 = 1;
 				
 				if((y1+robot_front1.getHeight(null)/2) == 80 ||
@@ -194,10 +194,10 @@ public class MapPane extends JPanel implements ActionListener{
 		
 		if(p2 != null) {
 			
-//			System.out.println("ï¿½ï¿½ï¿½ï¿½x: " + p2.x + ", ï¿½ï¿½ï¿½ï¿½x: " + (x2+robot_front1.getWidth(null)/2)
-//					+ ",ï¿½ï¿½ï¿½ï¿½ y: " + p2.y +", ï¿½ï¿½ï¿½ï¿½ y: " +(y2+robot_front1.getHeight(null)/2));
+//			System.out.println("°¡´Âx: " + p2.x + ", ÇöÀçx: " + (x2+robot_front1.getWidth(null)/2)
+//			+ ",°¡´Â y: " + p2.y +", ÇöÀç y: " +(y2+robot_front1.getHeight(null)/2));
 			
-			if(p2.x != (x2+robot_front1.getWidth(null)/2)) { //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ xï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
+			if(p2.x != (x2+robot_front1.getWidth(null)/2)) { //¸¸¾à ÇöÀç À§Ä¡°¡ xÁÂÇ¥¿Í °°Áö ¾Ê´Ù¸é
 				flag2 = 1;
 				
 				if((y2+robot_front1.getHeight(null)/2) == 80 ||
@@ -235,7 +235,6 @@ public class MapPane extends JPanel implements ActionListener{
 	}
     
     private void initComponents() {
-    	// ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½Æ¿Ã°Ô¿ï¿½...
 
     	serveBar = new JPanel();
     	kitchen = new JPanel();
