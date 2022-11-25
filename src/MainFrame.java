@@ -1,4 +1,6 @@
+package Algorithm;
 
+import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -18,7 +20,12 @@ import javax.swing.JPanel;
 
 
 public class MainFrame extends JFrame implements Runnable, ActionListener{
-	
+	public static Queueing queue = new Queueing();// add Queueing ++++++++++++++++++++++++
+	public static Dijkstra dj = new Dijkstra(); //add Dijkstra ++++++++++++++++++++++++++
+	public static MapPane mp =new MapPane();//add MapPane ++++++++++++++++++++++++++
+	public static int[][] visit_xy = null;//add visited nodes++++++++++++++++++++++++++
+	private static int[][] transfer=null;//add transfer nodes++++++++++++++++++++
+	//private static int[] robot_state;
 	public static void main(String args[]) throws Exception {	// out()을 위해 throws Exception 추가
     	
 		MainFrame frame = new MainFrame();
@@ -52,28 +59,105 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 		mapPane.setRobot(2, position2);
 		
 		
-		// Queue and guest test
+		//infinity while, robot operation++++++++++++++++++++++++++++++++++++++++++++++
 		while(true)
-		{
-			String[] temp_str = Queueing.out();
-			
-			//temporary check
-			if(temp_str!=null)
+		{	
+			while(true)//check robot state
 			{
-//				System.out.println(temp_str[0]);
-//				System.out.println(temp_str[1]);//use to parseInt, so String -> int 
+				if(mp.isFree()!=0&&queue.state()==0)break;
+				Thread.sleep(100);
 			}
-			else
+			visit_xy=null;
+			transfer=null;
+			int working_robot;
+			int[] robot1=null;
+			int[] robot2=null;
+			int node;
+			int[] setting= {200,80};
+			int[] serving= {400,80};
+			int[] infinity= {10000,10000};
+			int[] x = null;
+			int[] y = null;
+			
+			String[] temp_str = queue.out();
+			
+			node =change_node(Integer.parseInt(temp_str[1]),temp_str[0]);
+			working_robot=mp.isFree();
+			
+			
+			robot1=mp.getInfo(1);
+			robot2=mp.getInfo(2);
+			
+			if(temp_str[0].equals("serving")||temp_str[0].equals("setting"))//if "serving" or "settting"
+			{	
+				if(temp_str[0].equals("setting"))//if "setting"
+				{
+					
+					//error dikstra init robot1, robot2를 각각 1차원 배열에 담아야하는데 각각을 1차원 배열의 1칸에만 값을 저장함
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();//go to setting bar
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[i]=visit_xy[i][0]; y[i]=visit_xy[i][1];
+					}
+					if(dj.workRobot()==1)
+						dj.init(node, setting, infinity, working_robot);
+					else if(dj.workRobot()==2)
+						dj.init(node, infinity, setting, working_robot);
+					transfer=dj.list_result();//go to end node		
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[x.length]=visit_xy[i][0]; y[y.length]=visit_xy[i][1];
+					}
+					for(int i=0;i<x.length;i++)
+					{
+						visit_xy[i][0]=x[i];
+						visit_xy[i][1]=y[i];
+					}
+				}
+				else if(temp_str[0].equals("serving"))	//if "serving"
+				{
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();	//go to kitchen
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[i]=visit_xy[i][0]; y[i]=visit_xy[i][1];
+					}
+					if(dj.workRobot()==1)
+						dj.init(node, serving, infinity, working_robot);
+					else if(dj.workRobot()==2)
+						dj.init(node, infinity, serving, working_robot);
+
+					transfer=dj.list_result();//go to end node
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[x.length]=visit_xy[i][0]; y[y.length]=visit_xy[i][1];
+					}
+					for(int i=0;i<x.length;i++)
+					{
+						visit_xy[i][0]=x[i]; visit_xy[i][1]=y[i];
+					}
+				}
+			}
+			else if(temp_str[0].equals("refull"))//if refull
 			{
-				System.out.println("로봇-Running");
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();//go to setting bar
+			}
+			else if(temp_str[0].equals("clean"))//if clean
+			{
+				dj.init(node, robot1, robot2, working_robot);
+				visit_xy=dj.list_result();//go to end node
 			}
 			
-			Thread.sleep(3000);
+			
+			//don't need node?
+			mp.setRobot(dj.workRobot(), visit_xy);
+			
 		}
     }
-	
-	
-    public void init() {
+
+	public void init() {
     	// initialize GUI
         
         // 창 최소크기 설정(맵이 안찌그러지도록)
@@ -125,9 +209,32 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 //        pack();
     }
     
-      
-    
-    
+      //table number -> node number ++++++++++++++++++++++++++++++++++++++++
+    private static int change_node(int table, String operation)
+    {
+    	if(table==0)
+    		return 1;
+    	else if(table==1)
+    		return 6;
+    	else if(operation.equals("setting")&&table==2)
+    		return 6;
+    	else if(operation.equals("serving")&&table==2)
+    		return 7;
+    	else if(table==3)
+    		return 7;
+    	else if(table==4)
+    		return 11;
+    	else if(operation.equals("setting")&&table==5)
+    		return 11;
+    	else if(operation.equals("serving")&&table==5)
+    		return 12;
+    	else if(table==6)
+    		return 12;
+    	
+		return 0;
+
+    }
+
     
     // Real-time updates
     public void run()
