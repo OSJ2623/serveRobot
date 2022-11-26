@@ -126,8 +126,8 @@ public class MapPane extends JPanel implements ActionListener{
     
     public void paint(Graphics g){
     	super.paint(g);
-    	System.out.println(way1.isEmpty());
-    	System.out.println(way2.isEmpty());
+//    	System.out.println(way1.isEmpty());
+//    	System.out.println(way2.isEmpty());
     	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());

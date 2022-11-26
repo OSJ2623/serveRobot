@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class Queueing {
 
 	public static String message = null;
-	public static int dish=10;
+	public static int dish=5;
 
 	private static Queue<String> Queue = new LinkedList<>();
 	private static Queue<String> clean_Queue = new LinkedList<>();
@@ -53,14 +53,16 @@ public class Queueing {
 		
 
 		//1st priority "refull" setting and lowest priority "refull" setting
-		if(dish<=5&&state()==1)//Queue is empty then do lowest priority "refull" 	
-			Queue.add("refull.0");
-		if(dish==0&&!priority_Queue.isEmpty()&&priority_Queue.element()!="refull.0")//dish is zero then do 1st priority "refull"
+		if(dish<=3&&state()==1&&!priority_Queue.contains("refull.0"))//Queue is empty then do lowest priority "refull" 	
+			{
+				Queue.add("refull.0");
+			}
+		if(dish==0&&!priority_Queue.isEmpty()&&priority_Queue.contains("refull.0")&&priority_Queue.element()!="refull.0")//dish is zero then do 1st priority "refull"
 		{
-			if(priority_Queue.contains("refull.0"))
-				priority_Queue.remove("refull.0");
 			if(Queue.contains("refull.0"))
 				Queue.remove("refull.0");
+			priority_Queue.remove("refull.0");
+			
 			priorityQueue();
 			priority_Queue.add("refull.0");
 			repriorityQueue();
@@ -86,12 +88,9 @@ public class Queueing {
 				priority_Queue.add(message);
 				message = null;//main.message = null;
 			}
-				
-				
-			
+
 		}
 		
-			
 		//Thread.sleep(100); this page or main page in infinity loop
 			
 			
@@ -102,7 +101,8 @@ public class Queueing {
 	//input where the main class of project
 	public static void init(String operation, int table){
 
-		if(operation=="clean.")
+		
+		if(operation.equals("clean."))
 		{
 			clean_Queue.add(operation+table);
 		}
@@ -127,16 +127,19 @@ public class Queueing {
 			if(!priority_Queue.isEmpty())
 			{
 				opr = priority_Queue.poll();
+				if(opr.equals(null)) continue;
 				break;
 			}
 			else if(!clean_Queue.isEmpty())
 			{
 				opr = clean_Queue.poll();
+				if(opr.equals(null)) continue;
 				break;
 			}
 			else if(!Queue.isEmpty())
 			{
 				opr = Queue.poll();
+				if(opr.equals(null)) continue;
 				break;
 			}	
 			else
@@ -165,8 +168,8 @@ public class Queueing {
 			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
 		}
 		if(str1.equals("clean")) {
-			table_state[tbN]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-//			MapPane.table[tbN].setBackground(Color.WHITE);	// 자리 다시 비었다는 표시 gui
+		  table_state[tbN]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+		  //MapPane.table[tbN].setBackground(Color.WHITE);	// 자리 다시 비었다는 표시 gui
 			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
 			MapPane.state[tbN].setText("");	// table 상태 메시지 초기화
 			isSettingDone[tbN] = false;
@@ -174,8 +177,7 @@ public class Queueing {
 		}
 		
 		
- 		if(opr=="refull.0")// temporary if 
- 			dish=10;
+ 		
  		
 		return str;
 	}
@@ -217,12 +219,12 @@ public class Queueing {
 		{
 			if(!priority_Queue.isEmpty())
 			{
-				if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="serving")
+				if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("serving"))
 					temp_Queue.add(priority_Queue.poll());
-				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="setting"
+				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(priority_Queue.element().substring(priority_Queue.element().indexOf("0")+1))-1]==0)
 						temp_Queue.add(priority_Queue.poll());
-				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="setting"
+				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(priority_Queue.element().substring(priority_Queue.element().indexOf("0")+1))-1]==1)
 						
 						{
@@ -251,12 +253,12 @@ public class Queueing {
 		{
 			if(!Queue.isEmpty())
 			{
-				if(Queue.element().substring(0, Queue.element().indexOf("."))=="serving")
+				if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("serving"))
 					temp_Queue.add(Queue.poll());
-				else if(Queue.element().substring(0, Queue.element().indexOf("."))=="setting"
+				else if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(Queue.element().substring(Queue.element().indexOf(".")+1))-1]==0)
 						temp_Queue.add(Queue.poll());
-				else if(Queue.element().substring(0, Queue.element().indexOf("."))=="setting"
+				else if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(Queue.element().substring(Queue.element().indexOf(".")+1))-1]==1)
 						{
 							str = Queue.poll();
