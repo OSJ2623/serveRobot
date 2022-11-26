@@ -1,4 +1,6 @@
+//package ServeRobot;
 
+import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -18,12 +20,19 @@ import javax.swing.JPanel;
 
 
 public class MainFrame extends JFrame implements Runnable, ActionListener{
-	
-	public static void main(String args[]) throws Exception {
+	public static Queueing queue = new Queueing();// add Queueing ++++++++++++++++++++++++
+	public static Dijkstra dj = new Dijkstra(); //add Dijkstra ++++++++++++++++++++++++++
+	public static MapPane mp =new MapPane();//add MapPane ++++++++++++++++++++++++++
+	public static int[][] visit_xy = null;//add visited nodes++++++++++++++++++++++++++
+	public static int[] dest = null;//add dest nodes
+	private static int[][] transfer=null;//add transfer nodes++++++++++++++++++++
+	//private static int[] robot_state;
+	public static void main(String args[]) throws Exception {	// out()ì„ ìœ„í•´ throws Exception ì¶”ê°€
     	
 		MainFrame frame = new MainFrame();
 		MapPane mapPane = new MapPane();
 		JPanel centerPane = new JPanel();
+
 		frame.init();
 		centerPane.add(mapPane);
         mapPane.setPreferredSize(new Dimension(600, 580));
@@ -39,8 +48,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				{400, 380},
 				{400, 280}
 		};
-		int[] dest1 = {400, 280};
-		mapPane.setRobot(1, position, dest1);
+		//mapPane.setRobot(1, position);
 		int[][] position2 = {
 				{200, 80},
 				{200,180},
@@ -49,44 +57,127 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				{300, 80},
 				{400,80}
 		};
-		int[] dest2 = {400, 80};
-		mapPane.setRobot(2, position2, dest2);
+		//mapPane.setRobot(2, position2);
 		
 		
-		// Queue and guest test
+		//infinity while, robot operation++++++++++++++++++++++++++++++++++++++++++++++
 		while(true)
-		{
-			String[] temp_str = Queueing.out();
-			
-			//temporary check
-			if(temp_str!=null)
+		{	
+			while(true)//check robot state
 			{
-//				System.out.println(temp_str[0]);
-//				System.out.println(temp_str[1]);//use to parseInt, so String -> int
+				if(mp.isFree()!=0&&queue.state()==0)break;
+				Thread.sleep(100);
 			}
-			else
+			visit_xy=null;
+			transfer=null;
+			dest = null;
+			int working_robot;
+			int[] robot1=null;
+			int[] robot2=null;
+			int node;
+			int[] setting= {200,80};
+			int[] serving= {400,80};
+			int[] infinity= {10000,10000};
+			int[] x = null;
+			int[] y = null;
+			
+			String[] temp_str = queue.out();
+			
+			node =change_node(Integer.parseInt(temp_str[1]),temp_str[0]);
+			working_robot=mp.isFree();
+			
+			
+			robot1=mp.getInfo(1);
+			robot2=mp.getInfo(2);
+			
+			if(temp_str[0].equals("serving")||temp_str[0].equals("setting"))//if "serving" or "settting"
+			{	
+				if(temp_str[0].equals("setting"))//if "setting"
+				{
+					
+					//error dikstra init robot1, robot2ë¥¼ ê°ê° 1ì°¨ì› ë°°ì—´ì— ë‹´ì•„ì•¼í•˜ëŠ”ë° ê°ê°ì„ 1ì°¨ì› ë°°ì—´ì˜ 1ì¹¸ì—ë§Œ ê°’ì„ ì €ì¥í•¨
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();//go to setting bar
+					dest=dj.dest_num();
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[i]=visit_xy[i][0]; y[i]=visit_xy[i][1];
+					}
+					if(dj.workRobot()==1)
+						dj.init(node, setting, infinity, working_robot);
+					else if(dj.workRobot()==2)
+						dj.init(node, infinity, setting, working_robot);
+					transfer=dj.list_result();//go to end node		
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[x.length]=visit_xy[i][0]; y[y.length]=visit_xy[i][1];
+					}
+					for(int i=0;i<x.length;i++)
+					{
+						visit_xy[i][0]=x[i];
+						visit_xy[i][1]=y[i];
+					}
+					dest=dj.dest_num();
+				}
+				else if(temp_str[0].equals("serving"))	//if "serving"
+				{
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();	//go to kitchen
+					dest=dj.dest_num();
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[i]=visit_xy[i][0]; y[i]=visit_xy[i][1];
+					}
+					if(dj.workRobot()==1)
+						dj.init(node, serving, infinity, working_robot);
+					else if(dj.workRobot()==2)
+						dj.init(node, infinity, serving, working_robot);
+
+					transfer=dj.list_result();//go to end node
+					for(int i=0;i<visit_xy.length;i++)
+					{
+						x[x.length]=visit_xy[i][0]; y[y.length]=visit_xy[i][1];
+					}
+					for(int i=0;i<x.length;i++)
+					{
+						visit_xy[i][0]=x[i]; visit_xy[i][1]=y[i];
+					}
+					dest=dj.dest_num();
+				}
+			}
+			else if(temp_str[0].equals("refull"))//if refull
 			{
-				System.out.println("·Îº¿-Running");
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();//go to setting bar
+					dest=dj.dest_num();
+			}
+			else if(temp_str[0].equals("clean"))//if clean
+			{
+				dj.init(node, robot1, robot2, working_robot);
+				visit_xy=dj.list_result();//go to end node
+				dest=dj.dest_num();
 			}
 			
-			Thread.sleep(3000);
+			
+			//don't need node?
+			mp.setRobot(dj.workRobot(), visit_xy, dest);
+			
 		}
     }
-	
-	
-    public void init() {
+
+	public void init() {
     	// initialize GUI
         
-    	// Ã¢ ÃÖ¼ÒÅ©±â ¼³Á¤(¸ÊÀÌ ¾ÈÂî±×·¯Áöµµ·Ï)
-        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //È­¸é¹èÀ²
+        // ì°½ ìµœì†Œí¬ê¸° ì„¤ì •(ë§µì´ ì•ˆì°Œê·¸ëŸ¬ì§€ë„ë¡)
+        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //í™”ë©´ë°°ìœ¨
         double minX = 1000*magn;
         double minY = 722*magn;	//(580+40+60)+42
         setMinimumSize(new Dimension((int)minX, (int)minY));
         //setResizable(false);
-        //setLocationRelativeTo(null);	//°¡¿îµ¥¿¡ Ã¢ ¶ß°Ô
+        //setLocationRelativeTo(null);	//ê°€ìš´ë°ì— ì°½ ëœ¨ê²Œ
         //System.out.println("Frame Size = " + getSize());
         
-        // ÀüÃ¼ È­¸é
+        // ì „ì²´ í™”ë©´
         GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
         device.setFullScreenWindow(this);
@@ -99,15 +190,15 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
         emptyPane1 = new JPanel();
         emptyPane2 = new JPanel();
         
-        // ½Ã°£ ¶ç¿ì±â
+        // ì‹œê°„ ë„ìš°ê¸°
         timeTestLabel = new JLabel("00 : 00");
         emptyPane1.add(timeTestLabel);
         new Thread(this).start();
         
-        // guest Á¤º¸ µé¾î°¥ ÀÚ¸® »ı¼º
+        // guest ì •ë³´ ë“¤ì–´ê°ˆ ìë¦¬ ìƒì„±
         guest = new Guest[6];
         
-        // ¼Õ´Ô ÀÔÀå ¹öÆ°
+        // ì†ë‹˜ ì…ì¥ ë²„íŠ¼
         guestEntranceBtn = new JButton();
         guestEntranceBtn.setText("Accept Guests");
         guestEntranceBtn.addActionListener(this);
@@ -126,14 +217,37 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 //        pack();
     }
     
-      
-    
-    
+      //table number -> node number ++++++++++++++++++++++++++++++++++++++++
+    private static int change_node(int table, String operation)
+    {
+    	if(table==0)
+    		return 1;
+    	else if(table==1)
+    		return 6;
+    	else if(operation.equals("setting")&&table==2)
+    		return 6;
+    	else if(operation.equals("serving")&&table==2)
+    		return 7;
+    	else if(table==3)
+    		return 7;
+    	else if(table==4)
+    		return 11;
+    	else if(operation.equals("setting")&&table==5)
+    		return 11;
+    	else if(operation.equals("serving")&&table==5)
+    		return 12;
+    	else if(table==6)
+    		return 12;
+    	
+		return 0;
+
+    }
+
     
     // Real-time updates
     public void run()
     {
- 	   //¹İº¹xÀÌ¸é ¹İº¹¹® ¹Û¿¡
+ 	   //ë°˜ë³µxì´ë©´ ë°˜ë³µë¬¸ ë°–ì—
  	   
  	   while(true) {
  		   Calendar time = Calendar.getInstance();
@@ -156,17 +270,17 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
        // TODO Auto-generated method stub
  	  
  	   if (e.getSource() == guestEntranceBtn) {
- 		// ºó Å×ÀÌºí Ã¼Å©
+ 		   // ë¹ˆ í…Œì´ë¸” ì²´í¬
  		   for (int i = 0; i < 6; i++) { 
  			   if (Queueing.table_state[i] == 0) {
- 				// ÀÌ Å×ÀÌºí ³Ñ¹ö¸¦ ³Ñ°ÜÁÖ°í guest »ı¼º.  Å×ÀÌºí ¾É´Â ÀÚ¸®´Â ÀÏ´Ü ·£´ı ¾Æ´Ô
- 				   guest[i] = new Guest(i);	// guest »ı¼º, ÃÊ±âÈ­
- 				   guest[i].start();	// guest thread ½ÃÀÛ
- 				  Queueing.table_state[i] = 1;	// ÀÚ¸® Âü
+ 				   // ì´ í…Œì´ë¸” ë„˜ë²„ë¥¼ ë„˜ê²¨ì£¼ê³  guest ìƒì„±.  í…Œì´ë¸” ì•‰ëŠ” ìë¦¬ëŠ” ì¼ë‹¨ ëœë¤ ì•„ë‹˜
+ 				   guest[i] = new Guest(i);	// guest ìƒì„±, ì´ˆê¸°í™”
+ 				   guest[i].start();	// guest thread ì‹œì‘
+ 				  Queueing.table_state[i] = 1;	// ìë¦¬ ì°¸
  				  break;
  			   }
  			   else {
- 				   if (i == 5) {	// ´Ù Ã¡À¸¸é ¸ø³Ö°Ô. 
+ 				   if (i == 5) {	// ë‹¤ ì°¼ìœ¼ë©´ ëª»ë„£ê²Œ. 
  					   JOptionPane.showMessageDialog(null, "The restaurant is full","alert", JOptionPane.WARNING_MESSAGE);
  				   }
  			   }

@@ -1,6 +1,5 @@
-
 public class Dijkstra {
-	private int n; //node 수
+	private int n = 12; //node 수
 	private int[][] Graph; //어느 노드끼리 이웃해있는지
 	private int[] visitList; //방문 순서(노드번호)
 	private int[] distance; //거리 저장
@@ -9,25 +8,43 @@ public class Dijkstra {
 	private int end; //종착점
 	private int[] robots; //로봇들의 현재 위치
 	private int r; //움직일 로봇
+	private int robot_status; //움직일 수 있는 로봇
+	private int [][] node_list = {
+			{200, 80},
+			{300, 80},
+			{400, 80},
+			{200, 180},
+			{400, 180},
+			{200, 280},
+			{400, 280},
+			{200, 380},
+			{300, 380},
+			{400, 380},
+			{200, 480},
+			{400, 480}
+	};
+	
+	public Dijkstra() {
+		super();
+	}
 	
 	//초기화
-	public Dijkstra(int n, 
-			int end, 
-			int robot1, 
-			int robot2){
-		super();
-		this.n = n;
+	public void init(
+			int end, //목적지
+			int[] robot1, //로봇 현재 위치
+			int[] robot2, 
+			int robot_status) {
 		Graph = new int[n][n];
 		visitList = new int[n];
 		distance = new int[n];
 		visited = new boolean[n];
 		this.end = end;
 		robots = new int[2];
-		robots[0] = robot1-1;
-		robots[1] = robot2-1;
+		robots[0] = change_Num(robot1);
+		robots[1] = change_Num(robot2);
+		this.robot_status = robot_status;
 		//초기화 한 후 바로 실행
 		Do_Dijkstra();
-		
 	}
 	
 	//방문 순서 받아오는 함수
@@ -36,35 +53,34 @@ public class Dijkstra {
 	}
 	
 	//움직여야 하는 로봇 번호 받아오는 함수
-	public int robot_num(){
+	public int workRobot(){
 		return r;
 	}
 	
-	//목적지 노드 번호 받아오는 함수
-	public int[][] dest_num(){
+	//목적지 노드 좌표 받아오는 함수
+	public int[] dest_num(){
 		
-		int [][] node_list = {
-				{200, 80},
-				{300, 80},
-				{400, 80},
-				{200, 180},
-				{400, 180},
-				{200, 280},
-				{400, 280},
-				{200, 380},
-				{300, 380},
-				{400, 380},
-				{200, 480},
-				{400, 480}
-		};
-		
-		int[][] node_xy = new int[1][2];
-		node_xy[0][0] = node_list[end-1][0];
-		node_xy[0][1] = node_list[end-1][1];
+		int[] node_xy = new int[2];
+		node_xy[0] = node_list[end-1][0];
+		node_xy[1] = node_list[end-1][1];
 		
 		return node_xy;
 	}
+	
+	public int change_Num(int[] xy) {
+		
+		int nodeNum = 0;
+		
+		for(int i = 0; i<n; i++) {
+			if(node_list[i][0]==xy[0] && node_list[i][1]==xy[1]) {
+				nodeNum = i;
+			}
+		}
+		
+		return nodeNum;
+	}
 
+	
 	//연결된 노드들을 저장해주는 함수
 	public void get_Graph(int a, int b) {
 		a--;
@@ -126,7 +142,12 @@ public class Dijkstra {
 	}
 	
 	//어느 로봇이 더 가까이 있는지 반환해주는 함수
-	private int robot_num(int robot1, int robot2) {
+	private int robot_num(int robot1, int robot2, int robot_status) {
+		
+		if(robot_status == 1 || robot_status == 2) {
+			return robot_status-1;
+		}
+		
 		if(distance[robot1]> distance[robot2]) {
     		return 1;
     	}
@@ -136,21 +157,6 @@ public class Dijkstra {
 	
 	//노드번호로 저장된 리스트를 좌표값으로 바꿔주는 함수
 	private int[][] get_location_list(int[] list, int length){
-		
-		int [][] node_list = {
-				{200, 80},
-				{300, 80},
-				{400, 80},
-				{200, 180},
-				{400, 180},
-				{200, 280},
-				{400, 280},
-				{200, 380},
-				{300, 380},
-				{400, 380},
-				{200, 480},
-				{400, 480}
-		};
 		
 		int [][] location_list = new int[length+1][2];
 		
@@ -210,7 +216,7 @@ public class Dijkstra {
 		
 		update_dist(start);
 		
-		int Robot = robot_num(robot1, robot2);
+		int Robot = robot_num(robot1, robot2, robot_status);
 		r = Robot+1;
 		
 		//종착점에서 로봇위치까지 거꾸로 list에 저장해주는 함수

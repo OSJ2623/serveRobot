@@ -1,3 +1,6 @@
+//package Algorithm;
+
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Map;
@@ -22,7 +25,7 @@ public class Queueing {
 	public static int[] table_state =new int[6];
 	public static boolean[] isSettingDone =new boolean[6];
 	public static boolean[] isServingDone =new boolean[6];
-
+	
 	//kind of priority
 	//'.' is Delimiter to robot go to where table
 	//ex) 'setting.5' is robot should go table number5 to do 'setting' at table 5
@@ -37,7 +40,16 @@ public class Queueing {
 	}
 	*/
 
-	public static void priority(){	// static 넣어봤어요
+	public static int state() 
+	{
+		
+
+		if(Queue.isEmpty()&&clean_Queue.isEmpty()&&priority_Queue.isEmpty())
+			return 1;
+		else
+			return 0;
+	}
+	public static void priority(){	
 	
 		
 
@@ -91,19 +103,18 @@ public class Queueing {
 	
 	
 	//input where the main class of project
-	public static void init(String operation, int table){	// static 넣어봤어요
+	public static void init(String operation, int table){
 
-		if(operation.equals("clean."))
+		if(operation=="clean.")
 		{
 			clean_Queue.add(operation+table);
 		}
 		else
 			Queue.add(operation+table);
-		priority();	// init 이후에 항상 priority 호출하면 좋을 것 같아서 넣어봤어요
 	}
 	
 	
-	public static String[] out() throws Exception {	// static 넣어봤어요
+	public String[] out() throws Exception {
 		
 		String str1;
 		String str2;
@@ -112,12 +123,12 @@ public class Queueing {
 
 		//if another robot do refull operation
 		//other robot do serving operation that finished setting operation tables
-		if(dish==0&&priority_Queue.element().equals("refull.0"))
+		if(dish==0&&priority_Queue.element()=="refull.0")
 		{
 			opr = priority_Queue.poll();
 
 		}
-		else if(dish==0&&!priority_Queue.element().equals("refull.0")) 
+		else if(dish==0&&priority_Queue.element()!="refull.0") 
 		{
 
 			if(!priority_Queue.isEmpty())
@@ -143,31 +154,19 @@ public class Queueing {
 
 		
 		//we return operation and table number to other class of same project
-		System.out.println("로봇-"+opr);		
-		
-		if(opr == null) {
-			return null;	// 여기까지 왔는데도 null인 경우가 안걸러지는 경우가 있나봐요 오류가 한 번 떴었어요
-		}
+		System.out.println(opr);		
+
 		str1 =opr.substring(0, opr.indexOf("."));
 		str2 = opr.substring(opr.indexOf(".")+1);
 		String[] str = {str1, str2};
-		if(str1.equals("setting")) {
-//			table_state[Integer.parseInt(str2)-1]=1;	// Guest 생성할 때 바꿔서 우선 없애봤습니다
-			isSettingDone[Integer.parseInt(str2)-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-			dish -= 1;	
-		}
-		if(str1.equals("serving")) {
-			isServingDone[Integer.parseInt(str2)-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-		}
-		if(str1.equals("clean")) {
-			table_state[Integer.parseInt(str2)-1]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-			isSettingDone[Integer.parseInt(str2)-1] = false;
-			isServingDone[Integer.parseInt(str2)-1] = false;
-		}
+		if(str1=="setting")
+			table_state[Integer.parseInt(str2)-1]=1;
+		if(str1=="clean")
+			table_state[Integer.parseInt(str2)-1]=0;
 
 		
 		
- 		if(opr.equals("refull.0"))// temporary if 
+ 		if(opr=="refull.0")// temporary if 
  			dish=10;
  		
 		return str;
@@ -210,12 +209,12 @@ public class Queueing {
 		{
 			if(!priority_Queue.isEmpty())
 			{
-				if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("serving"))
+				if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="serving")
 					temp_Queue.add(priority_Queue.poll());
-				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("setting")
+				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="setting"
 						&& table_state[Integer.parseInt(priority_Queue.element().substring(priority_Queue.element().indexOf("0")+1))-1]==0)
 						temp_Queue.add(priority_Queue.poll());
-				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("setting")
+				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="setting"
 						&& table_state[Integer.parseInt(priority_Queue.element().substring(priority_Queue.element().indexOf("0")+1))-1]==1)
 						
 						{
@@ -244,12 +243,12 @@ public class Queueing {
 		{
 			if(!Queue.isEmpty())
 			{
-				if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("serving"))
+				if(Queue.element().substring(0, Queue.element().indexOf("."))=="serving")
 					temp_Queue.add(Queue.poll());
-				else if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("setting")
+				else if(Queue.element().substring(0, Queue.element().indexOf("."))=="setting"
 						&& table_state[Integer.parseInt(Queue.element().substring(Queue.element().indexOf(".")+1))-1]==0)
 						temp_Queue.add(Queue.poll());
-				else if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("setting")
+				else if(Queue.element().substring(0, Queue.element().indexOf("."))=="setting"
 						&& table_state[Integer.parseInt(Queue.element().substring(Queue.element().indexOf(".")+1))-1]==1)
 						{
 							str = Queue.poll();
