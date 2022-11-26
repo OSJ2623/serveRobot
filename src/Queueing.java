@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 package Algorithm;
-=======
-//package Algorithm;
->>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 
 
 import java.util.LinkedList;
@@ -58,12 +54,10 @@ public class Queueing {
 		
 
 		//1st priority "refull" setting and lowest priority "refull" setting
-		if(dish<=5&&Queue.isEmpty())//Queue is empty then do lowest priority "refull" 	
+		if(dish<=5&&state()==1)//Queue is empty then do lowest priority "refull" 	
 			Queue.add("refull.0");
 		if(dish==0&&!priority_Queue.isEmpty()&&priority_Queue.element()!="refull.0")//dish is zero then do 1st priority "refull"
 		{
-			
-
 			if(priority_Queue.contains("refull.0"))
 				priority_Queue.remove("refull.0");
 			if(Queue.contains("refull.0"))
@@ -94,7 +88,7 @@ public class Queueing {
 				message = null;//main.message = null;
 			}
 				
-
+				
 			
 		}
 		
@@ -115,6 +109,8 @@ public class Queueing {
 		}
 		else
 			Queue.add(operation+table);
+		
+		
 	}
 	
 	
@@ -127,34 +123,28 @@ public class Queueing {
 
 		//if another robot do refull operation
 		//other robot do serving operation that finished setting operation tables
-		if(dish==0&&priority_Queue.element()=="refull.0")
-		{
-			opr = priority_Queue.poll();
-
-		}
-		else if(dish==0&&priority_Queue.element()!="refull.0") 
-		{
-
-			if(!priority_Queue.isEmpty())
-				opr=zeroDishPriority();
-			if(opr==null)
-				opr=zeroDishClean();
-			if(opr==null)
-				opr=zeroDishQueue();
-			
-			
-		}
-		else
+		while(true)
 		{
 			if(!priority_Queue.isEmpty())
+			{
 				opr = priority_Queue.poll();
+				break;
+			}
 			else if(!clean_Queue.isEmpty())
+			{
 				opr = clean_Queue.poll();
+				break;
+			}
 			else if(!Queue.isEmpty())
+			{
 				opr = Queue.poll();
+				break;
+			}	
 			else
-				return null;
+				continue;
 		}
+			
+
 
 		
 		//we return operation and table number to other class of same project
@@ -163,13 +153,6 @@ public class Queueing {
 		str1 =opr.substring(0, opr.indexOf("."));
 		str2 = opr.substring(opr.indexOf(".")+1);
 		String[] str = {str1, str2};
-<<<<<<< HEAD
-		if(str1=="setting")
-			table_state[Integer.parseInt(str2)-1]=1;
-		if(str1=="clean")
-			table_state[Integer.parseInt(str2)-1]=0;
-
-=======
 		int tbN = Integer.parseInt(str2)-1;
 		
 		if(str1.equals("setting")) {	//equals 써주세요...ㅠ
@@ -190,7 +173,6 @@ public class Queueing {
 			isSettingDone[tbN] = false;
 			isServingDone[tbN] = false;
 		}
->>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 		
 		
  		if(opr=="refull.0")// temporary if 
