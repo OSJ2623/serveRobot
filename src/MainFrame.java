@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 package Algorithm;
+=======
+//package ServeRobot;
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
@@ -24,9 +29,16 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 	public static Dijkstra dj = new Dijkstra(); //add Dijkstra ++++++++++++++++++++++++++
 	public static MapPane mp =new MapPane();//add MapPane ++++++++++++++++++++++++++
 	public static int[][] visit_xy = null;//add visited nodes++++++++++++++++++++++++++
+<<<<<<< HEAD
 	private static int[][] transfer=null;//add transfer nodes++++++++++++++++++++
 	//private static int[] robot_state;
 	public static void main(String args[]) throws Exception {	// out()À» À§ÇØ throws Exception Ãß°¡
+=======
+	public static int[] dest = null;//add dest nodes
+	private static int[][] transfer=null;//add transfer nodes++++++++++++++++++++
+	//private static int[] robot_state;
+	public static void main(String args[]) throws Exception {	// out()ï¿½ì“£ ï¿½ìï¿½ë¹ throws Exception ç•°ë¶½ï¿½
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
     	
 		MainFrame frame = new MainFrame();
 		MapPane mapPane = new MapPane();
@@ -47,7 +59,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				{400, 380},
 				{400, 280}
 		};
-		mapPane.setRobot(1, position);
+		//mapPane.setRobot(1, position);
 		int[][] position2 = {
 				{200, 80},
 				{200,180},
@@ -56,7 +68,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				{300, 80},
 				{400,80}
 		};
-		mapPane.setRobot(2, position2);
+		//mapPane.setRobot(2, position2);
 		
 		
 		//infinity while, robot operation++++++++++++++++++++++++++++++++++++++++++++++
@@ -69,6 +81,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 			}
 			visit_xy=null;
 			transfer=null;
+<<<<<<< HEAD
+=======
+			dest = null;
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 			int working_robot;
 			int[] robot1=null;
 			int[] robot2=null;
@@ -93,9 +109,16 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				if(temp_str[0].equals("setting"))//if "setting"
 				{
 					
+<<<<<<< HEAD
 					//error dikstra init robot1, robot2¸¦ °¢°¢ 1Â÷¿ø ¹è¿­¿¡ ´ã¾Æ¾ßÇÏ´Âµ¥ °¢°¢À» 1Â÷¿ø ¹è¿­ÀÇ 1Ä­¿¡¸¸ °ªÀ» ÀúÀåÇÔ
 					dj.init(node, robot1, robot2, working_robot);
 					visit_xy=dj.list_result();//go to setting bar
+=======
+					//error dikstra init robot1, robot2ç‘œï¿½ åª›ê³´ì»– 1ï§¡â‘¥ì è«›ê³—ë¿´ï¿½ë¿‰ ï¿½ë–ï¿½ë¸˜ï¿½ë¹ï¿½ë¸¯ï¿½ë’—ï¿½ëœ² åª›ê³´ì»–ï¿½ì“£ 1ï§¡â‘¥ì è«›ê³—ë¿´ï¿½ì“½ 1ç§»ëª„ë¿‰ï§ï¿½ åª›ë¯ªì“£ ï¿½ï¿½ï¿½ì˜£ï¿½ë¸¿
+					dj.init(node, robot1, robot2, working_robot);
+					visit_xy=dj.list_result();//go to setting bar
+					dest=dj.dest_num();
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 					for(int i=0;i<visit_xy.length;i++)
 					{
 						x[i]=visit_xy[i][0]; y[i]=visit_xy[i][1];
@@ -114,11 +137,19 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 						visit_xy[i][0]=x[i];
 						visit_xy[i][1]=y[i];
 					}
+<<<<<<< HEAD
+=======
+					dest=dj.dest_num();
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 				}
 				else if(temp_str[0].equals("serving"))	//if "serving"
 				{
 					dj.init(node, robot1, robot2, working_robot);
 					visit_xy=dj.list_result();	//go to kitchen
+<<<<<<< HEAD
+=======
+					dest=dj.dest_num();
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 					for(int i=0;i<visit_xy.length;i++)
 					{
 						x[i]=visit_xy[i][0]; y[i]=visit_xy[i][1];
@@ -137,22 +168,38 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 					{
 						visit_xy[i][0]=x[i]; visit_xy[i][1]=y[i];
 					}
+<<<<<<< HEAD
+=======
+					dest=dj.dest_num();
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 				}
 			}
 			else if(temp_str[0].equals("refull"))//if refull
 			{
 					dj.init(node, robot1, robot2, working_robot);
 					visit_xy=dj.list_result();//go to setting bar
+<<<<<<< HEAD
+=======
+					dest=dj.dest_num();
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 			}
 			else if(temp_str[0].equals("clean"))//if clean
 			{
 				dj.init(node, robot1, robot2, working_robot);
 				visit_xy=dj.list_result();//go to end node
+<<<<<<< HEAD
+=======
+				dest=dj.dest_num();
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 			}
 			
 			
 			//don't need node?
+<<<<<<< HEAD
 			mp.setRobot(dj.workRobot(), visit_xy);
+=======
+			mp.setRobot(dj.workRobot(), visit_xy, dest);
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 			
 		}
     }
@@ -160,16 +207,16 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 	public void init() {
     	// initialize GUI
         
-        // Ã¢ ÃÖ¼ÒÅ©±â ¼³Á¤(¸ÊÀÌ ¾ÈÂî±×·¯Áöµµ·Ï)
-        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //È­¸é¹èÀ²
+        // ï§¡ï¿½ ï§¤ì’–ëƒ¼ï¿½ê²•æ¹²ï¿½ ï¿½ê½•ï¿½ì ™(ï§ë“­ì”  ï¿½ë¸ï§¡ëš­ë ‡ï¿½ìœ­ï§ï¿½ï¿½ë£„æ¿¡ï¿½)
+        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //ï¿½ì†•ï§ëŒ€ê°™ï¿½ì‘‰
         double minX = 1000*magn;
         double minY = 722*magn;	//(580+40+60)+42
         setMinimumSize(new Dimension((int)minX, (int)minY));
         //setResizable(false);
-        //setLocationRelativeTo(null);	//°¡¿îµ¥¿¡ Ã¢ ¶ß°Ô
+        //setLocationRelativeTo(null);	//åª›ï¿½ï¿½ìŠ«ï¿½ëœ²ï¿½ë¿‰ ï§¡ï¿½ ï¿½ì‘‰å¯ƒï¿½
         //System.out.println("Frame Size = " + getSize());
         
-        // ÀüÃ¼ È­¸é
+        // ï¿½ìŸ¾ï§£ï¿½ ï¿½ì†•ï§ï¿½
         GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
         device.setFullScreenWindow(this);
@@ -182,15 +229,15 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
         emptyPane1 = new JPanel();
         emptyPane2 = new JPanel();
         
-        // ½Ã°£ ¶ç¿ì±â
+        // ï¿½ë–†åª›ï¿½ ï¿½ì“£ï¿½ìŠ¦æ¹²ï¿½
         timeTestLabel = new JLabel("00 : 00");
         emptyPane1.add(timeTestLabel);
         new Thread(this).start();
         
-        // guest Á¤º¸ µé¾î°¥ ÀÚ¸® »ı¼º
+        // guest ï¿½ì ™è¹‚ï¿½ ï¿½ë±¾ï¿½ë¼±åª›ï¿½ ï¿½ì˜„ç”±ï¿½ ï¿½ê¹®ï¿½ê½¦
         guest = new Guest[6];
         
-        // ¼Õ´Ô ÀÔÀå ¹öÆ°
+        // ï¿½ë„€ï¿½ë–‚ ï¿½ì—¯ï¿½ì˜£ è¸°ê¾ªë“‰
         guestEntranceBtn = new JButton();
         guestEntranceBtn.setText("Accept Guests");
         guestEntranceBtn.addActionListener(this);
@@ -239,7 +286,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
     // Real-time updates
     public void run()
     {
- 	   //¹İº¹xÀÌ¸é ¹İº¹¹® ¹Û¿¡
+ 	   //è«›ì„ë‚¬xï¿½ì” ï§ï¿½ è«›ì„ë‚¬è‡¾ï¿½ è«›ë½°ë¿‰
  	   
  	   while(true) {
  		   Calendar time = Calendar.getInstance();
@@ -262,17 +309,18 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
        // TODO Auto-generated method stub
  	  
  	   if (e.getSource() == guestEntranceBtn) {
- 		   // ºó Å×ÀÌºí Ã¼Å©
+ 		   // é®ï¿½ ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï§£ëŒ„ê²•
  		   for (int i = 0; i < 6; i++) { 
  			   if (Queueing.table_state[i] == 0) {
- 				   // ÀÌ Å×ÀÌºí ³Ñ¹ö¸¦ ³Ñ°ÜÁÖ°í guest »ı¼º.  Å×ÀÌºí ¾É´Â ÀÚ¸®´Â ÀÏ´Ü ·£´ı ¾Æ´Ô
- 				   guest[i] = new Guest(i);	// guest »ı¼º, ÃÊ±âÈ­
- 				   guest[i].start();	// guest thread ½ÃÀÛ
- 				  Queueing.table_state[i] = 1;	// ÀÚ¸® Âü
+ 				   // ï¿½ì”  ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ê½†è¸°ê¾¨ï¿½ï¿½ ï¿½ê½†å¯ƒâ‘¥ï¼œæ€¨ï¿½ guest ï¿½ê¹®ï¿½ê½¦.  ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ë¸ ï¿½ë’— ï¿½ì˜„ç”±Ñ‰ë’— ï¿½ì”ªï¿½ë–’ ï¿½ì˜–ï¿½ëœ¡ ï¿½ë¸˜ï¿½ë–‚
+ 				   guest[i] = new Guest(i);	// guest ï¿½ê¹®ï¿½ê½¦, ç¥ë‡ë¦°ï¿½ì†•
+ 				   guest[i].start();	// guest thread ï¿½ë–†ï¿½ì˜‰
+ 				  Queueing.table_state[i] = 1;	// ï¿½ì˜„ç”±ï¿½ ï§¡ï¿½
+ 				 MapPane.table[i].setBackground(Color.LIGHT_GRAY);	// ìë¦¬ ì°¼ë‹¤ëŠ” í‘œì‹œ gui
  				  break;
  			   }
  			   else {
- 				   if (i == 5) {	// ´Ù Ã¡À¸¸é ¸ø³Ö°Ô. 
+ 				   if (i == 5) {	// ï¿½ë– ï§¡ì‡±ì‘ï§ï¿½ ï§ì‚³ê½”å¯ƒï¿½. 
  					   JOptionPane.showMessageDialog(null, "The restaurant is full","alert", JOptionPane.WARNING_MESSAGE);
  				   }
  			   }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package Algorithm;
+=======
+//package Algorithm;
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 
 
 import java.util.LinkedList;
@@ -159,11 +163,34 @@ public class Queueing {
 		str1 =opr.substring(0, opr.indexOf("."));
 		str2 = opr.substring(opr.indexOf(".")+1);
 		String[] str = {str1, str2};
+<<<<<<< HEAD
 		if(str1=="setting")
 			table_state[Integer.parseInt(str2)-1]=1;
 		if(str1=="clean")
 			table_state[Integer.parseInt(str2)-1]=0;
 
+=======
+		int tbN = Integer.parseInt(str2)-1;
+		
+		if(str1.equals("setting")) {	//equals 써주세요...ㅠ
+			dish -= 1;	
+//			table_state[Integer.parseInt(str2)-1]=1;	// Guest 생성할 때 바꿔서 우선 없애봤습니다
+			isSettingDone[tbN] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
+		}
+		if(str1.equals("serving")) {
+			isServingDone[tbN] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
+		}
+		if(str1.equals("clean")) {
+			table_state[tbN]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+//			MapPane.table[tbN].setBackground(Color.WHITE);	// 자리 다시 비었다는 표시 gui
+			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
+			MapPane.state[tbN].setText("");	// table 상태 메시지 초기화
+			isSettingDone[tbN] = false;
+			isServingDone[tbN] = false;
+		}
+>>>>>>> c0a078cf1393c651fa70a41fb0e1cfffca5bdb57
 		
 		
  		if(opr=="refull.0")// temporary if 

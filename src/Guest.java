@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ public class Guest extends Thread{
 	int[] endStay = {0, 0};		// 손님 나가는 시각
 	int[] temp = {0, 0};
 	int satisfaction;	// 만족도
+	static final int LIMIT = 90;	// 제한시간 - 30정도로 줄이면 확 드러남.
 
 
 	public Guest(int num)
@@ -42,8 +44,10 @@ public class Guest extends Thread{
 		this.timeToStay = timeToStay / 10;
 		
 		this.satisfaction = 10;
-		System.out.println("- 손님 "+ String.valueOf(this.tableNum) + "번 테이블에 착석");
+//		System.out.println("- 손님 "+ String.valueOf(this.tableNum) + "번 테이블에 착석");
 //		System.out.println(this.tableNum + "번 입장시각-" + this.entryTime[0]+":"+this.entryTime[1]);
+		
+
 	}
 	
 	public void run() {
@@ -65,7 +69,6 @@ public class Guest extends Thread{
 		if (this.entryTime[1] + this.timeToCook >= 60) {
 			this.endCook[0] = (this.endCook[0] + 1) % 60;
 		}
-//		System.out.println(this.tableNum + "번 요리완료시각-" + this.endCook[0]+":"+this.endCook[1]);
 		
 		// endCook 시간이 되면 큐에 serving push
 		while(true) {
@@ -105,7 +108,6 @@ public class Guest extends Thread{
 		if (afterServe.get(Calendar.SECOND) + this.timeToStay >= 60) {
 			this.endStay[0] = (this.endStay[0] + 1) % 60;
 		}
-//		System.out.println(this.tableNum + "번 퇴장할 시각-" + this.endStay[0]+":"+this.endStay[1]);
 		
 		// endStay 시간이 되면 큐에 clean push
 		while(true) {
@@ -122,15 +124,16 @@ public class Guest extends Thread{
 		}
 		
 		// 만족도 계산하고 총합만족도로 보내기
-		this.settingTimer -= 300;
-		this.servingTimer -= 300;
+		this.settingTimer -= LIMIT;
+		this.servingTimer -= LIMIT;
 		if(this.settingTimer > 0) {
-			this.satisfaction -= this.settingTimer / 10;	// 10초 넘길 때마다 만족도가 깎임
+			this.satisfaction -= this.settingTimer / 5;	// 5초 넘길 때마다 만족도가 깎임
 		}
 		if(this.servingTimer > 0) {
-			this.satisfaction -= this.servingTimer / 10;
+			this.satisfaction -= this.servingTimer / 5;
 		}
-		System.out.println(String.valueOf(this.tableNum) + "번 테이블 만족도: " + this.satisfaction);
+
+		MapPane.state[this.tableNum-1].setText("clean. score: " + this.satisfaction);//손님 나가면 만족도 띄우기
 		
 		// clean 이후에 table_state 바꾸고 이런 거는 여기 말고 다른 곳에 넣기
 	}
@@ -150,18 +153,23 @@ class settingCountThread extends Thread{
 		while(true) {
 			
 			if(Queueing.isSettingDone[myG.tableNum-1]) {
-				System.out.println("(" + String.valueOf(myG.tableNum) + "번 세팅 걸린 시간: " + myG.settingTimer + "초)");
+//				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to setting");	// 기다린 시간 결과
+//				MapPane.state[myG.tableNum-1].setText("setting done in " + myG.settingTimer + "s");	// 기다린 시간 결과
+				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// 혹시 글자 색 바꼈으면 돌려놔주고
+				MapPane.state[myG.tableNum-1].setText("cook done at " + myG.endCook[0] + ":" + myG.endCook[1]);//요리끝나는시간 띄우기
 				break;	// 세팅이 끝났다는 신호가 오면 break
 			}
 		
 			// 세팅 카운터 ++
 			myG.settingTimer = myG.settingTimer + 1;
+			MapPane.state[myG.tableNum-1].setText("wait setting..." + myG.settingTimer);	// 세팅 대기 타이머 표시
 			
-			if(myG.settingTimer == 180) {	// 테스트할 때 숫자 확 줄여보면 잘 되는지 나옴
+			if(myG.settingTimer == myG.LIMIT) {	// 테스트할 때 숫자 확 줄여보면 잘 되는지 나옴
 				// 세팅이 3분 넘게 안가고 있으면 queue에 알려주기	(제한시간말고 일단 이렇게)
 				Queueing.message = "setting." + String.valueOf(myG.tableNum);
 				Queueing.priority();
-				System.out.println("~ " + myG.tableNum + "번 세팅 제한시간 넘김 ~");
+				MapPane.state[myG.tableNum-1].setForeground(Color.RED);	// 경고 gui로 표시
+//				System.out.println("~ " + myG.tableNum + "번 세팅 제한시간 넘김 ~");
 			}
 			
 			try {
@@ -186,18 +194,27 @@ class servingCountThread extends Thread{
 		while(true) {
 			
 			if(Queueing.isServingDone[myG.tableNum-1]) {
-				System.out.println("(" + String.valueOf(myG.tableNum) + "번 서빙 걸린 시간: " + myG.servingTimer + "초)");
+				try {
+					Thread.sleep(500);	// endStay 계산하기까지 잠깐 쉬고
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+//				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to serving");	// 기다린 시간 결과
+				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// 혹시 글자 색 바꼈으면 돌려놔주고
+				MapPane.state[myG.tableNum-1].setText("stay until " + myG.endStay[0] + ":" + myG.endStay[1]);//손님퇴장시간 띄우기
 				break;	// 서빙이 끝났다는 신호가 오면 break
 			}
 		
 			// 서빙 카운터 ++
 			myG.servingTimer = myG.servingTimer + 1;
+			MapPane.state[myG.tableNum-1].setText("wait serving..." + myG.servingTimer);	// 서빙 대기 타이머 표시
 			
-			if(myG.servingTimer == 180) {
+			if(myG.servingTimer == myG.LIMIT) {
 				// 서빙이 3분 넘게 안가고 있으면 queue에 알려주기	(제한시간말고 일단 이렇게)
 				Queueing.message = "serving." + String.valueOf(myG.tableNum);
 				Queueing.priority();
-				System.out.println("~ " + myG.tableNum + "번 서빙 제한시간 넘김 ~");
+				MapPane.state[myG.tableNum-1].setForeground(Color.RED);	// 경고 gui로 표시
+//				System.out.println("~ " + myG.tableNum + "번 서빙 제한시간 넘김 ~");
 			}
 			
 			try {

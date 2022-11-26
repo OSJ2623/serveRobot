@@ -11,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.awt.Point;
-
 import javax.swing.JPanel;
-
 
 public class MapPane extends JPanel implements ActionListener{
 
@@ -40,6 +38,8 @@ public class MapPane extends JPanel implements ActionListener{
     
     int[] temp1 = {0, 0}, temp2 = {0, 0};
 	
+    int[] dest1, dest2;
+    
     public MapPane() {
         initComponents();
         robot_front1 = new ImageIcon("./images/robot1.png").getImage();
@@ -50,7 +50,7 @@ public class MapPane extends JPanel implements ActionListener{
         
         robot_back1 = new ImageIcon("./images/robot_back.png").getImage();
         
-        robot_front2 = new ImageIcon("./images/robot1.png").getImage();
+        robot_front2 = new ImageIcon("./images/robot2.png").getImage();
         
         x2 = x2 - robot_front2.getWidth(null)/2;
         y2 = y2 - robot_front2.getHeight(null)/2;
@@ -61,11 +61,16 @@ public class MapPane extends JPanel implements ActionListener{
         timer.start();
     }
     
-    public void setRobot(int robot, int[][] position) { //������ ����
+    public void setRobot(int robot, int[][] position, int[] dest) {
+    	//濡쒕큸�쓣 �씠�룞�떆�궡
+    	//robot : ��吏곸뿬�빞 �븯�뒗 濡쒕큸
+    	//position : �씠�룞 寃쎈줈 (醫뚰몴濡�)
+    	//dest : 理쒖쥌 紐⑹쟻吏� �젙蹂� (醫뚰몴濡�)
     	this.robot = robot;
     	
     	if(robot == 1) {
     		//this.flag1 = 1;
+    		this.dest1 = dest;
     		for(int i = 0; i < position.length; i++) {
     			this.way1.add(new Point(position[i][0], position[i][1]));
     			this.temp1[0] = position[i][0];
@@ -75,6 +80,7 @@ public class MapPane extends JPanel implements ActionListener{
     	
     	if(robot == 2) {
     		//this.flag2 = 1;
+    		this.dest2 = dest;
     		for(int i = 0; i < position.length; i++) {
     			this.way2.add(new Point(position[i][0], position[i][1]));
     			this.temp2[0] = position[i][0];
@@ -84,6 +90,8 @@ public class MapPane extends JPanel implements ActionListener{
     }
     
     public int[] getInfo(int robot) {
+    	//濡쒕큸 �씠�룞寃쎈줈�쓽 留� �뮮 醫뚰몴 諛섑솚
+    	//robot : �뼸怨좎떢�� 濡쒕큸�쓽 踰덊샇
     	int[] coordinate = new int[2];
     	
     	if(robot == 1) {
@@ -98,21 +106,29 @@ public class MapPane extends JPanel implements ActionListener{
     	
 		return coordinate;
     }
-   
+    
+    public int isFree() {
+    	//�뼱�뼡 濡쒕큸�씠 �씪 �븞�븯怨� �엳�뒗吏� 諛섑솚
+    	if(way1.isEmpty() && !way2.isEmpty()) return 1; //濡쒕큸 1�씠 �씪�씠 諛곗젙�릺吏� �븡�븯�쑝硫�
+    	else if(way2.isEmpty() && !way1.isEmpty()) return 2; //濡쒕큸 2媛� �씪�씠 諛곗젙�릺吏� �븡�븯�쑝硫�
+    	else if(way2.isEmpty() && way1.isEmpty()) return 3; //濡쒕큸 �몮�떎 �씪�씠 諛곗젙�릺吏� �븡�븯�쑝硫�
+    	else return 0; //�몮�떎 �씪�씠 諛곗젙�릺�뼱 �엳�쑝硫�
+    }
+    
     public void paint(Graphics g){
     	super.paint(g);
     	
-    	//mapPane ũ��
+    	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
     	
-    	//�̹��� �� ��ġ Ȯ��
+    	//占싱뱄옙占쏙옙 占쏙옙載� 占쏙옙치 확占쏙옙
 //    	g.setColor(Color.WHITE);
 //    	g.fillRect(0, 0, 600, 580);
 //    	g.setColor(Color.BLACK);
 //    	g.drawRect(0, 0, 600, 579);
     	
-    	//�� �̹��� (600*580)
+    	//占쏙옙 占싱뱄옙占쏙옙 (600*580)
 //    	java.awt.Image map = Toolkit.getDefaultToolkit().getImage("./images/map.png");
 //    	g.drawImage(map, 0, 0, 600, 580, this);
     	
@@ -137,7 +153,7 @@ public class MapPane extends JPanel implements ActionListener{
     	}
 		y = y+yVel;
 		*/
-//    	System.out.println("������: "+ temp1[0] + "," + temp1[1]);
+//    	System.out.println("占쏙옙占쏙옙占쏙옙: "+ temp1[0] + "," + temp1[1]);
     	
     	if(flag1 == 0) {
         	p1 = way1.poll();
@@ -150,10 +166,10 @@ public class MapPane extends JPanel implements ActionListener{
 //    	System.out.println(p1);
     	
 		if(p1 != null) {
-//			System.out.println("����x: " + p1.x + ", ����x: " + (x1+robot_front1.getWidth(null)/2)
-//					+ ",���� y: " + p1.y +", ���� y: " +(y1+robot_front1.getHeight(null)/2));
+//			System.out.println("占쏙옙占쏙옙x: " + p1.x + ", 占쏙옙占쏙옙x: " + (x1+robot_front1.getWidth(null)/2)
+//					+ ",占쏙옙占쏙옙 y: " + p1.y +", 占쏙옙占쏙옙 y: " +(y1+robot_front1.getHeight(null)/2));
 			
-			if(p1.x != (x1+robot_front1.getWidth(null)/2)) { //���� ���� ��ġ�� x��ǥ�� ���� �ʴٸ�
+			if(p1.x != (x1+robot_front1.getWidth(null)/2)) { //占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙치占쏙옙 x占쏙옙표占쏙옙 占쏙옙占쏙옙 占십다몌옙
 				flag1 = 1;
 				
 				if((y1+robot_front1.getHeight(null)/2) == 80 ||
@@ -178,7 +194,8 @@ public class MapPane extends JPanel implements ActionListener{
 			}
 			if(p1.x == (x1+robot_front1.getWidth(null)/2) && p1.y == (y1+robot_front1.getHeight(null)/2)) {
 				flag1 = 0;
-				
+			}
+			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
@@ -187,13 +204,16 @@ public class MapPane extends JPanel implements ActionListener{
 				}
 			}
 		}
+		else {
+			
+		}
 		
 		if(p2 != null) {
 			
-//			System.out.println("����x: " + p2.x + ", ����x: " + (x2+robot_front1.getWidth(null)/2)
-//					+ ",���� y: " + p2.y +", ���� y: " +(y2+robot_front1.getHeight(null)/2));
+//			System.out.println("占쏙옙占쏙옙x: " + p2.x + ", 占쏙옙占쏙옙x: " + (x2+robot_front1.getWidth(null)/2)
+//					+ ",占쏙옙占쏙옙 y: " + p2.y +", 占쏙옙占쏙옙 y: " +(y2+robot_front1.getHeight(null)/2));
 			
-			if(p2.x != (x2+robot_front1.getWidth(null)/2)) { //���� ���� ��ġ�� x��ǥ�� ���� �ʴٸ�
+			if(p2.x != (x2+robot_front1.getWidth(null)/2)) { //占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙치占쏙옙 x占쏙옙표占쏙옙 占쏙옙占쏙옙 占십다몌옙
 				flag2 = 1;
 				
 				if((y2+robot_front1.getHeight(null)/2) == 80 ||
@@ -217,7 +237,8 @@ public class MapPane extends JPanel implements ActionListener{
 			}
 			if(p2.x == (x2+robot_front1.getWidth(null)/2) && p2.y == (y2+robot_front1.getHeight(null)/2)) {
 				flag2 = 0;
-				
+			}
+			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
@@ -230,29 +251,54 @@ public class MapPane extends JPanel implements ActionListener{
 	}
     
     private void initComponents() {
-    	// �Ʒ��� �������ּ���... ���� �г��� �Ǿ� ���ƿðԿ�...
+    	// for GUI
 
     	serveBar = new JPanel();
     	kitchen = new JPanel();
-    	table1 = new JPanel();
-    	table2 = new JPanel();
-    	table3 = new JPanel();
-    	table4 = new JPanel();
-    	table5 = new JPanel();
-    	table6 = new JPanel();
+    	tableArea = new JPanel[6];
+    	for (int i = 0; i < 6; i++) {
+    		tableArea[i] = new JPanel();
+    		tableArea[i].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+    		tableArea[i].setBackground(Color.WHITE);
+    	}
     	serveBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-    	serveBar.setBackground(Color.WHITE);
     	kitchen.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+    	serveBar.setBackground(Color.WHITE);
     	kitchen.setBackground(Color.WHITE);
-    	table1.setBackground(Color.CYAN);
-    	table2.setBackground(Color.BLACK);
-    	table3.setBackground(Color.CYAN);
-    	table4.setBackground(Color.BLACK);
-    	table5.setBackground(Color.CYAN);
-    	table6.setBackground(Color.BLACK);
-
+    	
+    	table = new TablePanel[6];
+    	name = new JLabel[6];
+    	state = new JLabel[6];
+    	for (int i = 0; i < 6; i++) {
+    		table[i] = new TablePanel(i);
+    		table[i].setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.DARK_GRAY));
+    		table[i].setBackground(Color.WHITE);
+    		name[i] = new JLabel(" table " + String.valueOf(i+1));
+    		state[i] = new JLabel("");
+    	}
+    	
+    	GroupLayout[] t = new GroupLayout[6];
+    	for (int i = 0; i < 6; i++) {
+    		t[i] = new GroupLayout(tableArea[i]);
+    		tableArea[i].setLayout(t[i]);
+    		t[i].setHorizontalGroup(
+    				t[i].createParallelGroup()
+        			.addComponent(name[i], 120, 120, 120)
+        			.addComponent(table[i], 118, 118, 118)
+        			.addComponent(state[i], 120, 120, 120)
+        	);
+    		t[i].setVerticalGroup(
+    				t[i].createSequentialGroup()
+        			.addComponent(name[i], 30, 30, 30)
+        			.addComponent(table[i], 60, 60, 60)
+        			.addComponent(state[i], 30, 30, 30)
+            );
+    	}
+    	
+    	
+    	
     	setBackground(Color.WHITE);
-    	javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    	GroupLayout layout = new GroupLayout(this);
     	this.setLayout(layout);
     	layout.setHorizontalGroup(
     			layout.createParallelGroup()
@@ -264,16 +310,16 @@ public class MapPane extends JPanel implements ActionListener{
     			.addGroup(layout.createSequentialGroup()
     	    			.addGap(40, 40, 40)
     	    			.addGroup(layout.createParallelGroup()
-    	    					.addComponent(table1, 120, 120, 120)
-    	    					.addComponent(table4, 120, 120, 120))
+    	    					.addComponent(tableArea[0], 120, 120, 120)
+    	    					.addComponent(tableArea[3], 120, 120, 120))
     	    			.addGap(80, 80, 80)
     	    			.addGroup(layout.createParallelGroup()
-    	    					.addComponent(table2, 120, 120, 120)
-    	    					.addComponent(table5, 120, 120, 120))
+    	    					.addComponent(tableArea[1], 120, 120, 120)
+    	    					.addComponent(tableArea[4], 120, 120, 120))
     	    			.addGap(80, 80, 80)
     	    			.addGroup(layout.createParallelGroup()
-    	    					.addComponent(table3, 120, 120, 120)
-    	    					.addComponent(table6, 120, 120, 120))
+    	    					.addComponent(tableArea[2], 120, 120, 120)
+    	    					.addComponent(tableArea[5], 120, 120, 120))
     					)
     			);
         layout.setVerticalGroup(
@@ -283,25 +329,22 @@ public class MapPane extends JPanel implements ActionListener{
     					.addComponent(kitchen, 40, 40, 40))
         		.addGap(180, 180, 180)
     			.addGroup(layout.createParallelGroup()
-    					.addComponent(table1, 120, 120, 120)
-    					.addComponent(table2, 120, 120, 120)
-    					.addComponent(table3, 120, 120, 120))
+    					.addComponent(tableArea[0], 120, 120, 120)
+    					.addComponent(tableArea[1], 120, 120, 120)
+    					.addComponent(tableArea[2], 120, 120, 120))
     			.addGap(80, 80, 80)
     			.addGroup(layout.createParallelGroup()
-    					.addComponent(table4, 120, 120, 120)
-    					.addComponent(table5, 120, 120, 120)
-    					.addComponent(table6, 120, 120, 120))
+    					.addComponent(tableArea[3], 120, 120, 120)
+    					.addComponent(tableArea[4], 120, 120, 120)
+    					.addComponent(tableArea[5], 120, 120, 120))
         );
     }
     
-    
-    JPanel table1;
-    JPanel table2;
-    JPanel table3;
-    JPanel table4;
-    JPanel table5;
-    JPanel table6;
     JPanel serveBar;
     JPanel kitchen;
+    public static JPanel tableArea[];
+    public static TablePanel table[];
+    public static JLabel name[];
+    public static JLabel state[]; 
     
 }
