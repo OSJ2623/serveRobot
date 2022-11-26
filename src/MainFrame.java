@@ -1,4 +1,3 @@
-//package Algorithm;
 
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
@@ -64,15 +63,17 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 		{	
 			while(true)//check robot state
 			{
-				if(mp.isFree()!=0&&queue.state()==0)break;
-				Thread.sleep(100);
+					System.out.println(queue.dish);
+					if(mp.isFree()!=0&&queue.state()==0)break;
+				Thread.sleep(1000);
+				System.out.println();
 			}
 			
 			visit_xy=null;
 			transfer=null;
 			dest = null;
 			int working_robot;
-			int[] robot1=null;
+			int[] robot1=null;	
 			int[] robot2=null;
 			int node;
 			int[] setting= {200,80};
@@ -80,7 +81,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 
 			
 			String[] temp_str = queue.out();
-
+			
 
 			node =change_node(Integer.parseInt(temp_str[1]),temp_str[0]);
 			working_robot=mp.isFree();
@@ -88,7 +89,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 			robot1=mp.getInfo(1);
 			robot2=mp.getInfo(2);
 			
-			System.out.println("뭘하지?" + temp_str[0]);
 			if(temp_str[0].equals("serving")||temp_str[0].equals("setting"))//if "serving" or "settting"
 			{	
 				if(temp_str[0].equals("setting"))//if "setting"
@@ -97,101 +97,123 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 					dj.init(1, robot1, robot2, working_robot);
 				
 					dest=dj.dest_num();
+					/*
 					for(int i = 0; i < dj.list_result().length; i++)
 						System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
 					System.out.println(dest);
 					System.out.println(dj.workRobot());
-					
+					*/
 					//System.out.println(dj.list_result()[0]);()
-					mp.setRobot(dj.workRobot(), dj.list_result(), dest);
-					Thread.sleep(100);
+					visit_xy=dj.list_result();
+					mp.setRobot(dj.workRobot(),visit_xy, dest);
 
 					if(dj.workRobot()==1)
 						dj.init(node, setting, robot2, 1);
 					else if(dj.workRobot()==2)
 						dj.init(node, robot1, setting, 2);
-					/*
-					while(true)
-					{
-						if(mp.getInfo(dj.workRobot())==setting)
-							break;
-						Thread.sleep(100);
-						System.out.println(mp.getInfo(dj.workRobot())[0]);
-					}*/
 					
-					//데모
 					while(true)
 					{
 
 						if(mp.getInfo(dj.workRobot())[0]==setting[0]&&
 								mp.getInfo(dj.workRobot())[1]==setting[1])
 							break;
-						Thread.sleep(100);
 						System.out.println(mp.getInfo(dj.workRobot())[0]);
 					}
-								
+					visit_xy=null;		
+					visit_xy=dj.list_result();
 					dest=dj.dest_num();
-					mp.setRobot(dj.workRobot(), dj.list_result(), dest);
+					mp.setRobot(dj.workRobot(), visit_xy, dest);
 					
 				}
 				else if(temp_str[0].equals("serving"))	//if "serving"
 				{
+					//두 로봇 중 누가 할 지
 					dj.init(3, robot1, robot2, working_robot);
-					visit_xy=dj.list_result();	//go to kitchen
+				
 					dest=dj.dest_num();
-
-					System.out.println("일해라! " + dj.workRobot());
+					/*
+					for(int i = 0; i < dj.list_result().length; i++)
+						System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
+					System.out.println(dest);
+					System.out.println(dj.workRobot());
+					*/
+					//System.out.println(dj.list_result()[0]);()
+					visit_xy=dj.list_result();	
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
-					
 					if(dj.workRobot()==1)
 						dj.init(node, serving, robot2, 1);
 					else if(dj.workRobot()==2)
 						dj.init(node, robot1, serving, 2);
 					
-					/*
+					
 					while(true)
 					{
-						if(mp.getInfo(dj.workRobot())==serving)
-							break;
-						Thread.sleep(100);
-					}
-						*/
-					while(true)
-					{
-
+						
 						if(mp.getInfo(dj.workRobot())[0]==serving[0]&&
 								mp.getInfo(dj.workRobot())[1]==serving[1])
 							break;
-						Thread.sleep(100);
 						System.out.println(mp.getInfo(dj.workRobot())[0]);
 					}
-					
-					transfer=dj.list_result();//go to end node					
+						
+					visit_xy=null;		
+					visit_xy=dj.list_result();			
 					dest=dj.dest_num();
-					mp.setRobot(dj.workRobot(), transfer, dest);
+					mp.setRobot(dj.workRobot(), visit_xy, dest);
 				}
-			}
 			else if(temp_str[0].equals("refull"))//if refull
 			{
-					dj.init(1, robot1, robot2, working_robot);
-					visit_xy=dj.list_result();//go to setting bar
-					dest=dj.dest_num();
-					//don't need node?
-					mp.setRobot(dj.workRobot(), visit_xy, dest);
+				//두 로봇 중 누가 할 지
+				dj.init(3, robot1, robot2, working_robot);
+			
+				dest=dj.dest_num();
+				/*
+				for(int i = 0; i < dj.list_result().length; i++)
+					System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
+				System.out.println(dest);
+				System.out.println(dj.workRobot());
+				*/
+				//System.out.println(dj.list_result()[0]);()
+				visit_xy=dj.list_result();	
+				mp.setRobot(dj.workRobot(), visit_xy, dest);
+
+				if(dj.workRobot()==1)
+					dj.init(1, serving, robot2, 1);
+				else if(dj.workRobot()==2)
+					dj.init(1, robot1, serving, 2);
+				
+				
+				while(true)
+				{
+					
+					if(mp.getInfo(dj.workRobot())[0]==serving[0]&&
+							mp.getInfo(dj.workRobot())[1]==serving[1])
+						break;
+					System.out.println(mp.getInfo(dj.workRobot())[0]);
+				}
+					
+				visit_xy=null;		
+				visit_xy=dj.list_result();			
+				dest=dj.dest_num();
+				mp.setRobot(dj.workRobot(), visit_xy, dest);
+				queue.dish = 10;
 			}
 			else if(temp_str[0].equals("clean"))//if clean
 			{
 				dj.init(node, robot1, robot2, working_robot);
-				visit_xy=dj.list_result();//go to end node
+				
 				dest=dj.dest_num();
 				//don't need node?
+				visit_xy=dj.list_result();
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
+				
 			}
 			
 			
 			
 			
+		}
 		}
     }
 
@@ -246,8 +268,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 //        
 //        pack();
     }
-    
-      //table number -> node number ++++++++++++++++++++++++++++++++++++++++
+	 //table number -> node number ++++++++++++++++++++++++++++++++++++++++
     private static int change_node(int table, String operation)
     {
     	if(table==0)
@@ -317,7 +338,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
  			   }
  		   }
  		   
- 		   
+ 			
+
  	   }
  	   
     }
