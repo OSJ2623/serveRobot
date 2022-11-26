@@ -24,7 +24,7 @@ public class MapPane extends JPanel implements ActionListener{
     
     int xVel = 1, yVel = 1;
     
-    int x1 = 200, y1 = 80, x2 = 400, y2 = 80;
+    int x1 = 400, y1 = 80, x2 = 400, y2 = 80;
     
     int robot;
     
@@ -36,7 +36,7 @@ public class MapPane extends JPanel implements ActionListener{
 	
     int flag1 = 0, flag2 = 0;
     
-    int[] temp1 = {0, 0}, temp2 = {0, 0};
+    int[] temp1 = {400, 80}, temp2 = {400, 80};
 	
     int[] dest1, dest2;
     
@@ -71,20 +71,22 @@ public class MapPane extends JPanel implements ActionListener{
     	if(robot == 1) {
     		//this.flag1 = 1;
     		this.dest1 = dest;
-    		for(int i = 0; i < position.length; i++) {
+    		for(int i = 0; i < position.length-1; i++) {
     			this.way1.add(new Point(position[i][0], position[i][1]));
     			this.temp1[0] = position[i][0];
     			this.temp1[1] = position[i][1];
+    			System.out.println("mapPane : " + position[i][0] +"," + position[i][1]);
     		}
     	}
     	
     	if(robot == 2) {
     		//this.flag2 = 1;
     		this.dest2 = dest;
-    		for(int i = 0; i < position.length; i++) {
+    		for(int i = 0; i < position.length-1; i++) {
     			this.way2.add(new Point(position[i][0], position[i][1]));
     			this.temp2[0] = position[i][0];
     			this.temp2[1] = position[i][1];
+    			System.out.println("mapPane : " + temp2[0] +"," + temp2[1]);
     		}
     	}
     }
@@ -109,15 +111,16 @@ public class MapPane extends JPanel implements ActionListener{
     
     public int isFree() {
     	//�뼱�뼡 濡쒕큸�씠 �씪 �븞�븯怨� �엳�뒗吏� 諛섑솚
-    	if(way1.isEmpty() && !way2.isEmpty()) return 1; //濡쒕큸 1�씠 �씪�씠 諛곗젙�릺吏� �븡�븯�쑝硫�
-    	else if(way2.isEmpty() && !way1.isEmpty()) return 2; //濡쒕큸 2媛� �씪�씠 諛곗젙�릺吏� �븡�븯�쑝硫�
+    	if(way1.isEmpty() && !way2.isEmpty()) return 1; //1이 일을 안한다
+    	else if(way2.isEmpty() && !way1.isEmpty()) return 2; //2가 일을 안한다
     	else if(way2.isEmpty() && way1.isEmpty()) return 3; //濡쒕큸 �몮�떎 �씪�씠 諛곗젙�릺吏� �븡�븯�쑝硫�
     	else return 0; //�몮�떎 �씪�씠 諛곗젙�릺�뼱 �엳�쑝硫�
     }
     
     public void paint(Graphics g){
     	super.paint(g);
-    	
+    	System.out.println(way1.isEmpty());
+    	System.out.println(way2.isEmpty());
     	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
@@ -154,7 +157,9 @@ public class MapPane extends JPanel implements ActionListener{
 		y = y+yVel;
 		*/
 //    	System.out.println("占쏙옙占쏙옙占쏙옙: "+ temp1[0] + "," + temp1[1]);
-    	
+    	System.out.println("flag1 :" + flag1 +"flag2 : " + flag2);
+    	System.out.println("temp1 :" + temp1[0] + "," + temp1[1]);
+    	System.out.println("temp2 :" + temp2[0] + "," + temp2[1]);
     	if(flag1 == 0) {
         	p1 = way1.poll();
     	}
@@ -194,10 +199,12 @@ public class MapPane extends JPanel implements ActionListener{
 			}
 			if(p1.x == (x1+robot_front1.getWidth(null)/2) && p1.y == (y1+robot_front1.getHeight(null)/2)) {
 				flag1 = 0;
+				System.out.println("flag1 변경 :" + flag1);
 			}
 			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 				try {
 					Thread.sleep(1000);
+					this.way1.add(new Point(200, 80));
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -236,11 +243,13 @@ public class MapPane extends JPanel implements ActionListener{
 					y2 = y2-yVel;
 			}
 			if(p2.x == (x2+robot_front1.getWidth(null)/2) && p2.y == (y2+robot_front1.getHeight(null)/2)) {
+				System.out.println("flag2 변경" + flag2);
 				flag2 = 0;
 			}
 			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
+					this.way2.add(new Point(200, 80));
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
