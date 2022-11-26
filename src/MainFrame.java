@@ -2,6 +2,7 @@
 
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
@@ -27,7 +28,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 	public static int[] dest = null;//add dest nodes
 	private static int[][] transfer=null;//add transfer nodes++++++++++++++++++++
 	//private static int[] robot_state;
-	public static void main(String args[]) throws Exception {	// out()을 위해 throws Exception 추가
+	public static void main(String args[]) throws Exception {	// out()�쓣 �쐞�빐 throws Exception 異붽�
     	
 		MainFrame frame = new MainFrame();
 		MapPane mapPane = new MapPane();
@@ -95,7 +96,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				if(temp_str[0].equals("setting"))//if "setting"
 				{
 					
-					//error dikstra init robot1, robot2를 각각 1차원 배열에 담아야하는데 각각을 1차원 배열의 1칸에만 값을 저장함
+					//error dikstra init robot1, robot2瑜� 媛곴컖 1李⑥썝 諛곗뿴�뿉 �떞�븘�빞�븯�뒗�뜲 媛곴컖�쓣 1李⑥썝 諛곗뿴�쓽 1移몄뿉留� 媛믪쓣 ���옣�븿
 					dj.init(node, robot1, robot2, working_robot);
 					visit_xy=dj.list_result();//go to setting bar
 					dest=dj.dest_num();
@@ -168,16 +169,16 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 	public void init() {
     	// initialize GUI
         
-        // 창 최소크기 설정(맵이 안찌그러지도록)
-        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //화면배율
+        // 李� 理쒖냼�겕湲� �꽕�젙(留듭씠 �븞李뚭렇�윭吏��룄濡�)
+        double magn = 1080 / Toolkit.getDefaultToolkit().getScreenSize().getHeight(); //�솕硫대같�쑉
         double minX = 1000*magn;
         double minY = 722*magn;	//(580+40+60)+42
         setMinimumSize(new Dimension((int)minX, (int)minY));
         //setResizable(false);
-        //setLocationRelativeTo(null);	//가운데에 창 뜨게
+        //setLocationRelativeTo(null);	//媛��슫�뜲�뿉 李� �쑉寃�
         //System.out.println("Frame Size = " + getSize());
         
-        // 전체 화면
+        // �쟾泥� �솕硫�
         GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
         device.setFullScreenWindow(this);
@@ -190,15 +191,15 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
         emptyPane1 = new JPanel();
         emptyPane2 = new JPanel();
         
-        // 시간 띄우기
+        // �떆媛� �쓣�슦湲�
         timeTestLabel = new JLabel("00 : 00");
         emptyPane1.add(timeTestLabel);
         new Thread(this).start();
         
-        // guest 정보 들어갈 자리 생성
+        // guest �젙蹂� �뱾�뼱媛� �옄由� �깮�꽦
         guest = new Guest[6];
         
-        // 손님 입장 버튼
+        // �넀�떂 �엯�옣 踰꾪듉
         guestEntranceBtn = new JButton();
         guestEntranceBtn.setText("Accept Guests");
         guestEntranceBtn.addActionListener(this);
@@ -247,7 +248,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
     // Real-time updates
     public void run()
     {
- 	   //반복x이면 반복문 밖에
+ 	   //諛섎났x�씠硫� 諛섎났臾� 諛뽰뿉
  	   
  	   while(true) {
  		   Calendar time = Calendar.getInstance();
@@ -270,17 +271,18 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
        // TODO Auto-generated method stub
  	  
  	   if (e.getSource() == guestEntranceBtn) {
- 		   // 빈 테이블 체크
+ 		   // 鍮� �뀒�씠釉� 泥댄겕
  		   for (int i = 0; i < 6; i++) { 
  			   if (Queueing.table_state[i] == 0) {
- 				   // 이 테이블 넘버를 넘겨주고 guest 생성.  테이블 앉는 자리는 일단 랜덤 아님
- 				   guest[i] = new Guest(i);	// guest 생성, 초기화
- 				   guest[i].start();	// guest thread 시작
- 				  Queueing.table_state[i] = 1;	// 자리 참
+ 				   // �씠 �뀒�씠釉� �꽆踰꾨�� �꽆寃⑥＜怨� guest �깮�꽦.  �뀒�씠釉� �븠�뒗 �옄由щ뒗 �씪�떒 �옖�뜡 �븘�떂
+ 				   guest[i] = new Guest(i);	// guest �깮�꽦, 珥덇린�솕
+ 				   guest[i].start();	// guest thread �떆�옉
+ 				  Queueing.table_state[i] = 1;	// �옄由� 李�
+ 				 MapPane.table[i].setBackground(Color.LIGHT_GRAY);	// 자리 찼다는 표시 gui
  				  break;
  			   }
  			   else {
- 				   if (i == 5) {	// 다 찼으면 못넣게. 
+ 				   if (i == 5) {	// �떎 李쇱쑝硫� 紐삳꽔寃�. 
  					   JOptionPane.showMessageDialog(null, "The restaurant is full","alert", JOptionPane.WARNING_MESSAGE);
  				   }
  			   }
