@@ -56,7 +56,7 @@ public class Queueing {
 		//1st priority "refull" setting and lowest priority "refull" setting
 		if(dish<=5&&Queue.isEmpty())//Queue is empty then do lowest priority "refull" 	
 			Queue.add("refull.0");
-		if(dish==0&&!priority_Queue.isEmpty()&&priority_Queue.element()!="refull.0")//dish is zero then do 1st priority "refull"
+		if(dish==0 && !priority_Queue.isEmpty() && !priority_Queue.element().equals("refull.0"))//dish is zero then do 1st priority "refull"
 		{
 			
 
@@ -105,7 +105,7 @@ public class Queueing {
 	//input where the main class of project
 	public static void init(String operation, int table){
 
-		if(operation=="clean.")
+		if(operation.equals("clean."))
 		{
 			clean_Queue.add(operation+table);
 		}
@@ -123,12 +123,12 @@ public class Queueing {
 
 		//if another robot do refull operation
 		//other robot do serving operation that finished setting operation tables
-		if(dish==0&&priority_Queue.element()=="refull.0")
+		if(dish==0&&priority_Queue.element().equals("refull.0"))
 		{
 			opr = priority_Queue.poll();
 
 		}
-		else if(dish==0&&priority_Queue.element()!="refull.0") 
+		else if(dish==0&&!priority_Queue.element().equals("refull.0"))
 		{
 
 			if(!priority_Queue.isEmpty())
@@ -181,7 +181,7 @@ public class Queueing {
 		}
 		
 		
- 		if(opr=="refull.0")// temporary if 
+ 		if(opr.equals("refull.0"))// temporary if 
  			dish=10;
  		
 		return str;
@@ -224,12 +224,12 @@ public class Queueing {
 		{
 			if(!priority_Queue.isEmpty())
 			{
-				if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="serving")
+				if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("serving"))
 					temp_Queue.add(priority_Queue.poll());
-				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="setting"
+				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(priority_Queue.element().substring(priority_Queue.element().indexOf("0")+1))-1]==0)
 						temp_Queue.add(priority_Queue.poll());
-				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf("."))=="setting"
+				else if(priority_Queue.element().substring(0, priority_Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(priority_Queue.element().substring(priority_Queue.element().indexOf("0")+1))-1]==1)
 						
 						{
@@ -258,12 +258,12 @@ public class Queueing {
 		{
 			if(!Queue.isEmpty())
 			{
-				if(Queue.element().substring(0, Queue.element().indexOf("."))=="serving")
+				if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("serving"))
 					temp_Queue.add(Queue.poll());
-				else if(Queue.element().substring(0, Queue.element().indexOf("."))=="setting"
+				else if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(Queue.element().substring(Queue.element().indexOf(".")+1))-1]==0)
 						temp_Queue.add(Queue.poll());
-				else if(Queue.element().substring(0, Queue.element().indexOf("."))=="setting"
+				else if(Queue.element().substring(0, Queue.element().indexOf(".")).equals("setting")
 						&& table_state[Integer.parseInt(Queue.element().substring(Queue.element().indexOf(".")+1))-1]==1)
 						{
 							str = Queue.poll();
