@@ -124,29 +124,33 @@ public class Queueing {
 		//other robot do serving operation that finished setting operation tables
 		while(true)
 		{
+			Thread.sleep(10);
 			if(!priority_Queue.isEmpty())
 			{
 				opr = priority_Queue.poll();
-				if(opr.equals(null)) continue;
-				break;
+				if(opr==null) continue;
+
 			}
 			else if(!clean_Queue.isEmpty())
 			{
 				opr = clean_Queue.poll();
-				if(opr.equals(null)) continue;
-				break;
+				if(opr==null) continue;
+
 			}
 			else if(!Queue.isEmpty())
 			{
 				opr = Queue.poll();
-				if(opr.equals(null)) continue;
-				break;
+				if(opr==null) continue;
 			}	
 			else
 				continue;
-		}
 			
-
+			
+			if(opr == null) 
+				continue;	
+			else
+				break;
+		}
 
 		
 		//we return operation and table number to other class of same project
@@ -159,9 +163,8 @@ public class Queueing {
 		
 		if(str1.equals("setting")) {	//equals 써주세요...ㅠ
 			dish -= 1;	
-//			table_state[Integer.parseInt(str2)-1]=1;	// Guest 생성할 때 바꿔서 우선 없애봤습니다
-			isSettingDone[tbN] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
-			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
+//			isSettingDone[tbN] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+//			MapPane.table[tbN].repaint();	// 테이블 그림 바꾸기
 		}
 		if(str1.equals("serving")) {
 			isServingDone[tbN] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...

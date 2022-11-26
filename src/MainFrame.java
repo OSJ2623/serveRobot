@@ -106,6 +106,9 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					dest = dj.dest_num();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
+					queue.isSettingDone[Integer.parseInt(temp_str[1])-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+					MapPane.table[Integer.parseInt(temp_str[1])-1].repaint();	// 테이블 그림 바꾸기
+
 				} else if (temp_str[0].equals("serving")) // if "serving"
 				{
 					// 두 로봇 중 누가 할 지
@@ -137,6 +140,9 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					dest = dj.dest_num();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
+					
+					queue.isServingDone[Integer.parseInt(temp_str[1])-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+					MapPane.table[Integer.parseInt(temp_str[1])-1].repaint();	// 테이블 그림 바꾸기
 				}
 
 			} else if (temp_str[0].equals("refull"))// if refull
@@ -178,6 +184,12 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 				// don't need node?
 				visit_xy = dj.list_result();
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
+				
+				queue.table_state[Integer.parseInt(temp_str[1])-1]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+				MapPane.table[Integer.parseInt(temp_str[1])-1].repaint();	// 테이블 그림 바꾸기
+				MapPane.state[Integer.parseInt(temp_str[1])-1].setText("");	// table 상태 메시지 초기화
+				queue.isSettingDone[Integer.parseInt(temp_str[1])-1] = false;
+				queue.isServingDone[Integer.parseInt(temp_str[1])-1] = false;
 			}
 		}
 	}
