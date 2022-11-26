@@ -14,7 +14,7 @@ import java.awt.Point;
 import javax.swing.JPanel;
 
 public class MapPane extends JPanel implements ActionListener{
-
+	public static Dijkstra dj = new Dijkstra();
 	final int PANEL_WIDTH = 600;
     final int PANEL_HEIGHT = 580;
     
@@ -71,22 +71,29 @@ public class MapPane extends JPanel implements ActionListener{
     	if(robot == 1) {
     		//this.flag1 = 1;
     		this.dest1 = dest;
-    		for(int i = 0; i < position.length-1; i++) {
-    			this.way1.add(new Point(position[i][0], position[i][1]));
-    			this.temp1[0] = position[i][0];
-    			this.temp1[1] = position[i][1];
-    			System.out.println("mapPane : " + position[i][0] +"," + position[i][1]);
+    		for(int i = 0; i < position.length; i++) {
+    			if(position[i][0] != 0 && position[i][1] != 0) { 
+	    			this.way1.add(new Point(position[i][0], position[i][1]));
+	    			this.temp1[0] = position[i][0];
+	    			this.temp1[1] = position[i][1];
+	    			System.out.println("mapPane1 : " + position[i][0] +"," + position[i][1]);
+	    			System.out.println("destination1 : " + dest1[0] +","+dest1[1]);
+    			}
     		}
     	}
     	
     	if(robot == 2) {
     		//this.flag2 = 1;
     		this.dest2 = dest;
-    		for(int i = 0; i < position.length-1; i++) {
-    			this.way2.add(new Point(position[i][0], position[i][1]));
-    			this.temp2[0] = position[i][0];
-    			this.temp2[1] = position[i][1];
-    			System.out.println("mapPane : " + temp2[0] +"," + temp2[1]);
+    		for(int i = 0; i < position.length; i++) {
+    			if(position[i][0] != 0 && position[i][1] != 0) { 
+	    			this.way2.add(new Point(position[i][0], position[i][1]));
+	    			this.temp2[0] = position[i][0];
+	    			this.temp2[1] = position[i][1];
+	    			System.out.println("mapPane2 : " + position[i][0] +"," + position[i][1]);
+	    			System.out.println("destination2 : " + dest2[0] +","+dest2[1]);
+    			}
+    			//System.out.println("mapPane : " + temp2[0] +"," + temp2[1]);
     		}
     	}
     }
@@ -157,9 +164,11 @@ public class MapPane extends JPanel implements ActionListener{
 		y = y+yVel;
 		*/
 //    	System.out.println("占쏙옙占쏙옙占쏙옙: "+ temp1[0] + "," + temp1[1]);
+    	/*
     	System.out.println("flag1 :" + flag1 +"flag2 : " + flag2);
     	System.out.println("temp1 :" + temp1[0] + "," + temp1[1]);
     	System.out.println("temp2 :" + temp2[0] + "," + temp2[1]);
+    	*/
     	if(flag1 == 0) {
         	p1 = way1.poll();
     	}
@@ -201,15 +210,17 @@ public class MapPane extends JPanel implements ActionListener{
 				flag1 = 0;
 				System.out.println("flag1 변경 :" + flag1);
 			}
+			/*
 			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 				try {
-					Thread.sleep(1000);
-					this.way1.add(new Point(200, 80));
+					//Thread.sleep(1000);
+					//this.way1.add(new Point(200, 80));
+					dj.init(1, 100, 100, 1);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
+			}*/
 		}
 		else {
 			
@@ -246,6 +257,7 @@ public class MapPane extends JPanel implements ActionListener{
 				System.out.println("flag2 변경" + flag2);
 				flag2 = 0;
 			}
+			/*
 			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 				try {
 					Thread.sleep(100);
@@ -254,7 +266,7 @@ public class MapPane extends JPanel implements ActionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
+			}*/
 		}
 		repaint();
 	}

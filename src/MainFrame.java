@@ -88,6 +88,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 			robot1=mp.getInfo(1);
 			robot2=mp.getInfo(2);
 			
+			System.out.println("뭘하지?" + temp_str[0]);
 			if(temp_str[0].equals("serving")||temp_str[0].equals("setting"))//if "serving" or "settting"
 			{	
 				if(temp_str[0].equals("setting"))//if "setting"
@@ -117,7 +118,17 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 						Thread.sleep(100);
 						System.out.println(mp.getInfo(dj.workRobot())[0]);
 					}*/
-						
+					
+					//데모
+					while(true)
+					{
+
+						if(mp.getInfo(dj.workRobot())[0]==setting[0]&&
+								mp.getInfo(dj.workRobot())[1]==setting[1])
+							break;
+						Thread.sleep(100);
+						System.out.println(mp.getInfo(dj.workRobot())[0]);
+					}
 								
 					dest=dj.dest_num();
 					mp.setRobot(dj.workRobot(), dj.list_result(), dest);
@@ -129,6 +140,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 					visit_xy=dj.list_result();	//go to kitchen
 					dest=dj.dest_num();
 
+					System.out.println("일해라! " + dj.workRobot());
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
 					
@@ -137,13 +149,24 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 					else if(dj.workRobot()==2)
 						dj.init(node, robot1, serving, 2);
 					
+					/*
 					while(true)
 					{
 						if(mp.getInfo(dj.workRobot())==serving)
 							break;
 						Thread.sleep(100);
 					}
-						
+						*/
+					while(true)
+					{
+
+						if(mp.getInfo(dj.workRobot())[0]==serving[0]&&
+								mp.getInfo(dj.workRobot())[1]==serving[1])
+							break;
+						Thread.sleep(100);
+						System.out.println(mp.getInfo(dj.workRobot())[0]);
+					}
+					
 					transfer=dj.list_result();//go to end node					
 					dest=dj.dest_num();
 					mp.setRobot(dj.workRobot(), transfer, dest);
@@ -151,7 +174,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 			}
 			else if(temp_str[0].equals("refull"))//if refull
 			{
-					dj.init(node, robot1, robot2, working_robot);
+					dj.init(1, robot1, robot2, working_robot);
 					visit_xy=dj.list_result();//go to setting bar
 					dest=dj.dest_num();
 					//don't need node?
