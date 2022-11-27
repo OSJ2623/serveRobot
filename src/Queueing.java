@@ -151,7 +151,7 @@ public class Queueing {
 
 		
 		//we return operation and table number to other class of same project
-		System.out.println(opr);		
+//		System.out.println(opr);		
 
 		str1 =opr.substring(0, opr.indexOf("."));
 		str2 = opr.substring(opr.indexOf(".")+1);

@@ -58,7 +58,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 				if (mp.isFree() != 0 && queue.state() == 0)
 					break;
 				Thread.sleep(1000);
-				System.out.println();
+//				System.out.println();
 			}
 
 			visit_xy = null;

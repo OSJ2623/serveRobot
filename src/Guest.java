@@ -59,7 +59,7 @@ public class Guest extends Thread{
 		Queueing.init("setting.", tableNum);
 		Queueing.dish -= 1;
 		// �빆�긽 init �썑�뿉 priority �샇異�. init() �븞�뿉 吏곸젒 �꽔�뼱�몺.
-		System.out.println("! �걧�뿉 push: " + String.valueOf(this.tableNum) + "踰� �뀒�씠釉� �꽭�똿");
+		System.out.println("! 큐에 push: " + String.valueOf(this.tableNum) + "번 테이블 세팅");
 		
 		// �꽭�똿 湲곕떎由ш린
 		settingCountThread t1 = new settingCountThread(this);
@@ -82,7 +82,7 @@ public class Guest extends Thread{
 			if(this.temp[0] == this.endCook[0] && this.temp[1] == this.endCook[1]) {
 				// �걧�뿉 serving push
 				Queueing.init("serving.", this.tableNum);
-				System.out.println("! �걧�뿉 push: " + String.valueOf(this.tableNum) + "踰� �뀒�씠釉� �꽌鍮�");
+				System.out.println("! 큐 push: " + String.valueOf(this.tableNum) + "번 테이블 서빙");
 				break;
 			}
 		}
@@ -121,6 +121,7 @@ public class Guest extends Thread{
 			if(this.temp[0] == this.endStay[0] && this.temp[1] == this.endStay[1]) {
 				// �걧�뿉 clean push
 				MainFrame.haveToClean[this.tableNum - 1] = true;
+				MapPane.table[this.tableNum - 1].repaint();
 				Queueing.init("clean.", tableNum);
 				System.out.println("! 큐에 push: " + String.valueOf(this.tableNum) + "클린");
 				break;

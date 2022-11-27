@@ -155,8 +155,8 @@ public class MapPane extends JPanel implements ActionListener{
 	    			this.way1.add(new Point(position[i][0], position[i][1]));
 	    			this.temp1[0] = position[i][0];
 	    			this.temp1[1] = position[i][1];
-	    			System.out.println("mapPane1 : " + position[i][0] +"," + position[i][1]);
-	    			System.out.println("destination1 : " + dest1[0] +","+dest1[1]);
+//	    			System.out.println("mapPane1 : " + position[i][0] +"," + position[i][1]);
+//	    			System.out.println("destination1 : " + dest1[0] +","+dest1[1]);
     			}
     		}
     	}
@@ -169,8 +169,8 @@ public class MapPane extends JPanel implements ActionListener{
 	    			this.way2.add(new Point(position[i][0], position[i][1]));
 	    			this.temp2[0] = position[i][0];
 	    			this.temp2[1] = position[i][1];
-	    			System.out.println("mapPane2 : " + position[i][0] +"," + position[i][1]);
-	    			System.out.println("destination2 : " + dest2[0] +","+dest2[1]);
+//	    			System.out.println("mapPane2 : " + position[i][0] +"," + position[i][1]);
+//	    			System.out.println("destination2 : " + dest2[0] +","+dest2[1]);
     			}
     			//System.out.println("mapPane : " + temp2[0] +"," + temp2[1]);
     		}
@@ -291,20 +291,20 @@ public class MapPane extends JPanel implements ActionListener{
 			}
 			if(p1.x == (x1+robot_front1.getWidth(null)/2) && p1.y == (y1+robot_front1.getHeight(null)/2)) {
 				flag1 = 0;
-				System.out.println("flag1 변경 :" + flag1);
+//				System.out.println("flag1 변경 :" + flag1);
 			}
 			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 				// robot1 arrived to destination.
-				
+				System.out.println("도착");
 				// what is done?
-				if (dest1[0] != 200 && dest1[1] != 80 && MainFrame.robot_doing[0].equals("setting")) {	// destination is not settingBar
+				if (!(dest1[0] == 200 && dest1[1] == 80) && MainFrame.robot_doing[0].equals("setting")) {	// destination is not settingBar
 					MainFrame.isSettingDone[MainFrame.robot_table[0] - 1] = true;	// setting done
 					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
 					MainFrame.robot_doing[0] = "";	// reset
 					MainFrame.robot_table[0] = -1;
 					System.out.println("setting done");
 				}
-				else if (dest1[0] != 400 && dest1[1] != 80 && MainFrame.robot_doing[0].equals("serving")) {	// destination is not kitchen
+				else if (!(dest1[0] == 400 && dest1[1] == 80) && MainFrame.robot_doing[0].equals("serving")) {	// destination is not kitchen
 					MainFrame.isServingDone[MainFrame.robot_table[0] - 1] = true;	// serving done
 					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
 					MainFrame.robot_doing[0] = "";	// reset
@@ -313,16 +313,16 @@ public class MapPane extends JPanel implements ActionListener{
 				}
 				else if (MainFrame.robot_doing[0].equals("clean")) {
 					MainFrame.table_state[MainFrame.robot_table[0] - 1] = 0;	// guest can come
-					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
 					MainFrame.haveToClean[MainFrame.robot_table[0] - 1] = false;	// reset
-					MapPane.state[MainFrame.robot_table[0] - 1].setText("");
+					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
+					MapPane.state[MainFrame.robot_table[0] - 1].setText("");	// reset
 					MainFrame.isSettingDone[MainFrame.robot_table[0] - 1] = false;
 					MainFrame.isServingDone[MainFrame.robot_table[0] - 1] = false;
 					MainFrame.robot_doing[0] = "";
 					MainFrame.robot_table[0] = -1;
 					System.out.println("clean done");
 				}	
-				else if (dest1[0] != 400 && dest1[1] != 80 && MainFrame.robot_doing[0].equals("refull")) {		// destination is not kitchen
+				else if (!(dest1[0] == 400 && dest1[1] == 80) && MainFrame.robot_doing[0].equals("refull")) {		// destination is not kitchen
 					Queueing.dish = 5;	//	refull
 					MainFrame.robot_doing[0] = "";	// reset
 					MainFrame.robot_table[0] = -1;
@@ -364,20 +364,20 @@ public class MapPane extends JPanel implements ActionListener{
 					y2 = y2-yVel;
 			}
 			if(p2.x == (x2+robot_front1.getWidth(null)/2) && p2.y == (y2+robot_front1.getHeight(null)/2)) {
-				System.out.println("flag2 변경" + flag2);
+//				System.out.println("flag2 변경" + flag2);
 				flag2 = 0;
 			}
 			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 				// robot2 arrived to destination.
 				
 				// what is done?
-				if (dest2[0] != 200 && dest2[1] != 80 && MainFrame.robot_doing[1].equals("setting")) {	// destination is not settingBar
+				if (!(dest2[0] == 200 && dest2[1] == 80) && MainFrame.robot_doing[1].equals("setting")) {	// destination is not settingBar
 					MainFrame.isSettingDone[MainFrame.robot_table[1] - 1] = true;	// setting done
 					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
 					MainFrame.robot_doing[1] = "";	// reset
 					MainFrame.robot_table[1] = -1;
 				}
-				else if (dest2[0] != 400 && dest2[1] != 80 && MainFrame.robot_doing[1].equals("serving")) {	// destination is not kitchen
+				else if (!(dest2[0] == 400 && dest2[1] == 80) && MainFrame.robot_doing[1].equals("serving")) {	// destination is not kitchen
 					MainFrame.isServingDone[MainFrame.robot_table[1] - 1] = true;	// serving done
 					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
 					MainFrame.robot_doing[1] = "";	// reset
@@ -385,14 +385,14 @@ public class MapPane extends JPanel implements ActionListener{
 				}
 				else if (MainFrame.robot_doing[1].equals("clean")) {
 					MainFrame.table_state[MainFrame.robot_table[1] - 1] = 0;	// guest can come
-					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
 					MainFrame.haveToClean[MainFrame.robot_table[1] - 1] = false;	// reset
-					MapPane.state[MainFrame.robot_table[1] - 1].setText("");
+					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
+					MapPane.state[MainFrame.robot_table[1] - 1].setText("");	// reset
 					MainFrame.isSettingDone[MainFrame.robot_table[1] - 1] = false;
 					MainFrame.isServingDone[MainFrame.robot_table[1] - 1] = false;
 					MainFrame.robot_doing[1] = "";
 					MainFrame.robot_table[1] = -1;
-				}else if (dest2[0] != 400 && dest2[1] != 80 && MainFrame.robot_doing[1].equals("refull")) {		// destination is not kitchen
+				}else if (!(dest2[0] == 400 && dest2[1] == 80) && MainFrame.robot_doing[1].equals("refull")) {		// destination is not kitchen
 					Queueing.dish = 5;	//	refull
 					MainFrame.robot_doing[1] = "";	// reset
 					MainFrame.robot_table[1] = -1;

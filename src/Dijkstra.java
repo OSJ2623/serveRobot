@@ -134,7 +134,7 @@ public class Dijkstra {
 					}
 				}
 			}
-			
+			System.out.println("minNode ::::: " + minNode);
 			//visit that node
 			visited[minNode] = true;
 			
