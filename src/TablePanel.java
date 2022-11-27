@@ -21,19 +21,19 @@ public class TablePanel extends JPanel{
 	
 	public void paint(Graphics g){
 		
-//		if () {
-//			g.drawImage(ImgToClean, 0, 0, null);	//치워야할때(빈그릇)
-//		}
+		if (MainFrame.haveToClean[tableN]) {
+			g.drawImage(ImgToClean, 0, 0, null);	//치워야할때(빈그릇)
+		}
 		//else
-		if (Queueing.isServingDone[tableN]) {
+		if (MainFrame.isServingDone[tableN]) {
 			g.drawImage(ImgServingDone, 0, 0, null);	//서빙완료(음식나옴)
 		}
-		else if (Queueing.isSettingDone[tableN]) {
+		else if (MainFrame.isSettingDone[tableN]) {
 			g.drawImage(ImgSettingDone, 0, 0, null);	//세팅완료(수저랑물컵)
 		}
-//		else if () {
-//			g.drawImage(ImgEmpty, 0, 0, null);	//착석완료(테이블만)
-//		}
+		else if (MainFrame.table_state[tableN] == 1) {
+			g.drawImage(ImgEmpty, 0, 0, null);	//착석완료(테이블만)
+		}
 		else {
 			g.setColor(Color.WHITE);
 	    	g.fillRect(0, 0, 118, 58);	//손님없을때

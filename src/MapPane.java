@@ -3,7 +3,7 @@ package Algorithm;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.Timer;
-
+import java.util.TimerTask;
 import java.util.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,13 +16,17 @@ import java.awt.Point;
 import javax.swing.JPanel;
 
 public class MapPane extends JPanel implements ActionListener{
-
+	public static Dijkstra dj = new Dijkstra();
 	final int PANEL_WIDTH = 600;
     final int PANEL_HEIGHT = 580;
     
     Image map, robot_front1, robot_back1, robot_front2, robot_back2;
     
-    Timer timer;
+    javax.swing.Timer timer;
+    java.util.Timer timerUtil;
+    TimerTask task1;
+    TimerTask task2;
+    TimerTask taskStop;
     
     int xVel = 1, yVel = 1;
     
@@ -42,6 +46,73 @@ public class MapPane extends JPanel implements ActionListener{
 	
     int[] dest1, dest2;
     
+    /*
+    public void stopTask(int num) {
+    	taskStop = new TimerTask() {
+    		@Override
+    		public void run() {
+    	    	timerUtil = new java.util.Timer();
+    	    	
+    		}
+    	};
+
+    	if(num == 1 && way1.isEmpty() == true) {
+    		tempTask(1);
+    	}
+    	else if(num == 2 && way2.isEmpty() == true) {
+    		tempTask(2);
+    	}
+    }
+    */
+    public void tempTask(int num) {
+    	int[] robot1 = {0,0}, robot2 = {0,0};
+        robot1[0] = temp1[0];
+        robot1[1] = temp1[1];
+        robot2[0] = temp2[0];
+        robot2[1] = temp2[1];
+        task1 = new TimerTask() {
+        	@Override
+        	public void run() {
+        		if(way1.isEmpty() == true) {
+	        		dj.init(1, robot1, robot2, 1);
+	        		int[][] position = { {0,}};
+	        		position = dj.list_result();
+	        		for(int i = 0; i < position.length; i++) {
+	        			if(position[i][0] != 0 && position[i][1] != 0) {
+	        				way1.add(new Point(position[i][0], position[i][1]));
+	        				temp1[0] = position[i][0];
+	        				temp1[1] = position[i][1];
+	        			}
+	        		}
+	        	}
+        	}
+        };
+        task2 = new TimerTask() {
+        	@Override
+        	public void run() {
+        		if(way2.isEmpty() == true) {
+	        		dj.init(1, robot1, robot2, 2);
+	        		int[][] position = { {0,}};
+	        		position = dj.list_result();
+	        		for(int i = 0; i < position.length; i++) {
+	        			if(position[i][0] != 0 && position[i][1] != 0) {
+	        				way2.add(new Point(position[i][0], position[i][1]));
+	        				temp2[0] = position[i][0];
+	        				temp2[1] = position[i][1];
+	        			}
+	        		}
+        		}
+        	}
+        };
+    	timerUtil = new java.util.Timer();
+    	if(num == 1) {
+    		timerUtil.schedule(task1, 3000);
+    	}
+    	else if(num==2) {
+    		timerUtil.schedule(task2, 3000);
+    	}
+    }
+    
     public MapPane() {
         initComponents();
         robot_front1 = new ImageIcon("./images/robot1.png").getImage();
@@ -59,7 +130,15 @@ public class MapPane extends JPanel implements ActionListener{
         
         robot_back1 = new ImageIcon("./images/robot_back.png").getImage();
         
+        int[] robot1 = {0,0}, robot2 = {0,0};
+        robot1[0] = temp1[0];
+        robot1[1] = temp1[1];
+        robot2[0] = temp2[0];
+        robot2[1] = temp2[1];
         timer = new Timer(10, this);
+        timerUtil = new java.util.Timer();
+        
+        
         timer.start();
     }
     
@@ -78,7 +157,12 @@ public class MapPane extends JPanel implements ActionListener{
 	    			this.way1.add(new Point(position[i][0], position[i][1]));
 	    			this.temp1[0] = position[i][0];
 	    			this.temp1[1] = position[i][1];
+<<<<<<< HEAD
 	    			//System.out.println("mapPane : " + position[i][0] +"," + position[i][1]);
+=======
+	    			System.out.println("mapPane1 : " + position[i][0] +"," + position[i][1]);
+	    			System.out.println("destination1 : " + dest1[0] +","+dest1[1]);
+>>>>>>> 71b0c47baeec35864f794010382bfd9886304b4b
     			}
     		}
     	}
@@ -91,6 +175,11 @@ public class MapPane extends JPanel implements ActionListener{
 	    			this.way2.add(new Point(position[i][0], position[i][1]));
 	    			this.temp2[0] = position[i][0];
 	    			this.temp2[1] = position[i][1];
+<<<<<<< HEAD
+=======
+	    			System.out.println("mapPane2 : " + position[i][0] +"," + position[i][1]);
+	    			System.out.println("destination2 : " + dest2[0] +","+dest2[1]);
+>>>>>>> 71b0c47baeec35864f794010382bfd9886304b4b
     			}
     			//System.out.println("mapPane : " + temp2[0] +"," + temp2[1]);
     		}
@@ -125,10 +214,15 @@ public class MapPane extends JPanel implements ActionListener{
     
     public void paint(Graphics g){
     	super.paint(g);
+<<<<<<< HEAD
     	//System.out.println(way1.isEmpty());
     	//System.out.println(way2.isEmpty());
     	//System.out.println(way1.isEmpty());
     	//System.out.println(way2.isEmpty());
+=======
+//    	System.out.println(way1.isEmpty());
+//    	System.out.println(way2.isEmpty());
+>>>>>>> 71b0c47baeec35864f794010382bfd9886304b4b
     	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
@@ -152,7 +246,11 @@ public class MapPane extends JPanel implements ActionListener{
     @Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+    	int[] robot1 = {0,0}, robot2 = {0,0};
+        robot1[0] = temp1[0];
+        robot1[1] = temp1[1];
+        robot2[0] = temp2[0];
+        robot2[1] = temp2[1];
     	/*
     	if(x > 600-robot_front1.getWidth(null) || x<0) {
     		
@@ -211,6 +309,7 @@ public class MapPane extends JPanel implements ActionListener{
 				flag1 = 0;
 				System.out.println("flag1 변경 :" + flag1);
 			}
+<<<<<<< HEAD
 //			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 //				ry {
 //					Thread.sleep(1000);
@@ -220,6 +319,46 @@ public class MapPane extends JPanel implements ActionListener{
 //					e1.printStackTrace();
 //				}
 //			}
+=======
+			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
+				// robot1 arrived to destination.
+				
+				// what is done?
+				if (dest1[0] != 200 && dest1[1] != 80 && MainFrame.robot_doing[0].equals("setting")) {	// destination is not settingBar
+					MainFrame.isSettingDone[MainFrame.robot_table[0] - 1] = true;	// setting done
+					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
+					MainFrame.robot_doing[0] = "";	// reset
+					MainFrame.robot_table[0] = -1;
+					System.out.println("setting done");
+				}
+				else if (dest1[0] != 400 && dest1[1] != 80 && MainFrame.robot_doing[0].equals("serving")) {	// destination is not kitchen
+					MainFrame.isServingDone[MainFrame.robot_table[0] - 1] = true;	// serving done
+					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
+					MainFrame.robot_doing[0] = "";	// reset
+					MainFrame.robot_table[0] = -1;
+					System.out.println("serving done");
+				}
+				else if (MainFrame.robot_doing[0].equals("clean")) {
+					MainFrame.table_state[MainFrame.robot_table[0] - 1] = 0;	// guest can come
+					MapPane.table[MainFrame.robot_table[0] - 1].repaint();	// repaint the table
+					MainFrame.haveToClean[MainFrame.robot_table[0] - 1] = false;	// reset
+					MapPane.state[MainFrame.robot_table[0] - 1].setText("");
+					MainFrame.isSettingDone[MainFrame.robot_table[0] - 1] = false;
+					MainFrame.isServingDone[MainFrame.robot_table[0] - 1] = false;
+					MainFrame.robot_doing[0] = "";
+					MainFrame.robot_table[0] = -1;
+					System.out.println("clean done");
+				}	
+				else if (dest1[0] != 400 && dest1[1] != 80 && MainFrame.robot_doing[0].equals("refull")) {		// destination is not kitchen
+					Queueing.dish = 5;	//	refull
+					MainFrame.robot_doing[0] = "";	// reset
+					MainFrame.robot_table[0] = -1;
+					System.out.println("refull done");
+				}
+				
+				tempTask(1);
+			}
+>>>>>>> 71b0c47baeec35864f794010382bfd9886304b4b
 		}
 		else {			
 		}
@@ -255,6 +394,7 @@ public class MapPane extends JPanel implements ActionListener{
 				System.out.println("flag2 변경" + flag2);
 				flag2 = 0;
 			}
+<<<<<<< HEAD
 //			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 //				try {
 //					Thread.sleep(100);
@@ -264,6 +404,42 @@ public class MapPane extends JPanel implements ActionListener{
 //					e1.printStackTrace();
 //				}
 //			}
+=======
+			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
+				// robot2 arrived to destination.
+				
+				// what is done?
+				if (dest2[0] != 200 && dest2[1] != 80 && MainFrame.robot_doing[1].equals("setting")) {	// destination is not settingBar
+					MainFrame.isSettingDone[MainFrame.robot_table[1] - 1] = true;	// setting done
+					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
+					MainFrame.robot_doing[1] = "";	// reset
+					MainFrame.robot_table[1] = -1;
+				}
+				else if (dest2[0] != 400 && dest2[1] != 80 && MainFrame.robot_doing[1].equals("serving")) {	// destination is not kitchen
+					MainFrame.isServingDone[MainFrame.robot_table[1] - 1] = true;	// serving done
+					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
+					MainFrame.robot_doing[1] = "";	// reset
+					MainFrame.robot_table[1] = -1;
+				}
+				else if (MainFrame.robot_doing[1].equals("clean")) {
+					MainFrame.table_state[MainFrame.robot_table[1] - 1] = 0;	// guest can come
+					MapPane.table[MainFrame.robot_table[1] - 1].repaint();	// repaint the table
+					MainFrame.haveToClean[MainFrame.robot_table[1] - 1] = false;	// reset
+					MapPane.state[MainFrame.robot_table[1] - 1].setText("");
+					MainFrame.isSettingDone[MainFrame.robot_table[1] - 1] = false;
+					MainFrame.isServingDone[MainFrame.robot_table[1] - 1] = false;
+					MainFrame.robot_doing[1] = "";
+					MainFrame.robot_table[1] = -1;
+				}else if (dest2[0] != 400 && dest2[1] != 80 && MainFrame.robot_doing[1].equals("refull")) {		// destination is not kitchen
+					Queueing.dish = 5;	//	refull
+					MainFrame.robot_doing[1] = "";	// reset
+					MainFrame.robot_table[1] = -1;
+				}
+				
+				
+				tempTask(2);
+			}
+>>>>>>> 71b0c47baeec35864f794010382bfd9886304b4b
 		}
 		repaint();
 	}

@@ -1,20 +1,22 @@
+//package Algorithm;
+
 import java.awt.Color;
 import java.util.Calendar;
 import java.util.Random;
 
 public class Guest extends Thread{
 	
-	int tableNum;		// ¸î¹ø Å×ÀÌºí¿¡ ¾É¾ÆÀÖ´ÂÁö (0~5)
-	int[] entryTime = {0, 0};	// ÀÔÀå ½Ã°¢
-	int settingTimer;	// ¼¼ÆÃ ±â´Ù¸®´Â Å¸ÀÌ¸Ó count
-	int servingTimer;	// ¼­ºù ±â´Ù¸®´Â Å¸ÀÌ¸Ó count
-	int timeToCook;		// ¿ä¸®ÇÏ´Â ½Ã°£
-	int timeToStay;		// ¼Õ´ÔÀÌ ¸Ó¹«¸£´Â ½Ã°£
-	int[] endCook = {0, 0};		// ¿ä¸® ³¡³ª´Â ½Ã°¢
-	int[] endStay = {0, 0};		// ¼Õ´Ô ³ª°¡´Â ½Ã°¢
+	int tableNum;		// ï§ë‰–ì¾² ï¿½ë€’ï¿½ì” é‡‰ë¶¿ë¿‰ ï¿½ë¸ ï¿½ë¸˜ï¿½ì—³ï¿½ë’—ï§ï¿½ (0~5)
+	int[] entryTime = {0, 0};	// ï¿½ì—¯ï¿½ì˜£ ï¿½ë–†åª›ï¿½
+	int settingTimer;	// ï¿½ê½­ï¿½ë˜¿ æ¹²ê³•ë–ç”±Ñ‰ë’— ï¿½ï¿½ï¿½ì” ç™’ï¿½ count
+	int servingTimer;	// ï¿½ê½Œé®ï¿½ æ¹²ê³•ë–ç”±Ñ‰ë’— ï¿½ï¿½ï¿½ì” ç™’ï¿½ count
+	int timeToCook;		// ï¿½ìŠ‚ç”±Ñ‹ë¸¯ï¿½ë’— ï¿½ë–†åª›ï¿½
+	int timeToStay;		// ï¿½ë„€ï¿½ë–‚ï¿½ì”  ç™’ëªƒĞ¢ç‘œëŒ€ë’— ï¿½ë–†åª›ï¿½
+	int[] endCook = {0, 0};		// ï¿½ìŠ‚ç”±ï¿½ ï¿½ê±¹ï¿½êµ¹ï¿½ë’— ï¿½ë–†åª›ï¿½
+	int[] endStay = {0, 0};		// ï¿½ë„€ï¿½ë–‚ ï¿½êµ¹åª›ï¿½ï¿½ë’— ï¿½ë–†åª›ï¿½
 	int[] temp = {0, 0};
-	int satisfaction;	// ¸¸Á·µµ
-	static final int LIMIT = 90;	// Á¦ÇÑ½Ã°£ - 30Á¤µµ·Î ÁÙÀÌ¸é È® µå·¯³².
+	int satisfaction;	// ï§ëš¯â€ï¿½ë£„
+	static final int LIMIT = 90;	// ï¿½ì £ï¿½ë¸³ï¿½ë–†åª›ï¿½ - 30ï¿½ì ™ï¿½ë£„æ¿¡ï¿½ ä»¥ê¾©ì” ï§ï¿½ ï¿½ì†— ï¿½ë±¶ï¿½ìœ­ï¿½ê¶“.
 
 
 	public Guest(int num)
@@ -25,7 +27,7 @@ public class Guest extends Thread{
 	// Set guest(table) Information
 	public void init(int tableNum)
 	{
-		this.tableNum = tableNum+1;	// ÀÌÁ¦ 1~6
+		this.tableNum = tableNum+1;	// ï¿½ì” ï¿½ì £ 1~6
 		
 		Calendar time = Calendar.getInstance();
 		this.entryTime[0] = time.get(Calendar.MINUTE);
@@ -37,15 +39,15 @@ public class Guest extends Thread{
 		Random random = new Random();
 		//random.nextInt(max - min) + min; //min ~ max
 		
-		this.timeToCook = random.nextInt(240 - 120) + 120;	// 2~4ºĞ. ÃÊ´ÜÀ§·Î ¾¸. º¸¿©ÁÖ±â¿¡ ´À·Á¼­ Á¶ÀıÇÔ.
-		this.timeToStay = random.nextInt(420 - 300) + 300;	// 5~7ºĞ
+		this.timeToCook = random.nextInt(240 - 120) + 120;	// 2~4éºï¿½. ç¥ëˆë–’ï¿½ìæ¿¡ï¿½ ï¿½ï¿½. è¹‚ëŒë¿¬äºŒì‡¨ë¦°ï¿½ë¿‰ ï¿½ë’“ï¿½ì ®ï¿½ê½Œ è­°ê³—ì …ï¿½ë¸¿.
+		this.timeToStay = random.nextInt(420 - 300) + 300;	// 5~7éºï¿½
 		
-		this.timeToCook = timeToCook / 10;	// 10¹è¼Ó
+		this.timeToCook = timeToCook / 10;	// 10è«›ê³—ëƒ½
 		this.timeToStay = timeToStay / 10;
 		
 		this.satisfaction = 10;
-//		System.out.println("- ¼Õ´Ô "+ String.valueOf(this.tableNum) + "¹ø Å×ÀÌºí¿¡ Âø¼®");
-//		System.out.println(this.tableNum + "¹ø ÀÔÀå½Ã°¢-" + this.entryTime[0]+":"+this.entryTime[1]);
+//		System.out.println("- ï¿½ë„€ï¿½ë–‚ "+ String.valueOf(this.tableNum) + "è¸°ï¿½ ï¿½ë€’ï¿½ì” é‡‰ë¶¿ë¿‰ ï§¡â‘¹ê½");
+//		System.out.println(this.tableNum + "è¸°ï¿½ ï¿½ì—¯ï¿½ì˜£ï¿½ë–†åª›ï¿½-" + this.entryTime[0]+":"+this.entryTime[1]);
 		
 
 	}
@@ -53,45 +55,46 @@ public class Guest extends Thread{
 	public void run() {
 		
 		
-		// Å¥¿¡ setting push
+		// ï¿½ê±§ï¿½ë¿‰ setting push
 		Queueing.init("setting.", tableNum);
-		// Ç×»ó init ÈÄ¿¡ priority È£Ãâ. init() ¾È¿¡ Á÷Á¢ ³Ö¾îµÒ.
-		System.out.println("! Å¥¿¡ push: " + String.valueOf(this.tableNum) + "¹ø Å×ÀÌºí ¼¼ÆÃ");
+		Queueing.dish -= 1;
+		// ï¿½ë¹†ï¿½ê¸½ init ï¿½ì‘ï¿½ë¿‰ priority ï¿½ìƒ‡ç•°ï¿½. init() ï¿½ë¸ï¿½ë¿‰ ï§ê³¸ì ’ ï¿½ê½”ï¿½ë¼±ï¿½ëªº.
+		System.out.println("! ï¿½ê±§ï¿½ë¿‰ push: " + String.valueOf(this.tableNum) + "è¸°ï¿½ ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ê½­ï¿½ë˜¿");
 		
-		// ¼¼ÆÃ ±â´Ù¸®±â
+		// ï¿½ê½­ï¿½ë˜¿ æ¹²ê³•ë–ç”±Ñˆë¦°
 		settingCountThread t1 = new settingCountThread(this);
 		t1.start();
 		
-		// endCook °è»ê
-		// entryTime¿¡ timeToCook ´õÇÏ±â
+		// endCook æ€¨ê¾©ê¶›
+		// entryTimeï¿½ë¿‰ timeToCook ï¿½ëœ‘ï¿½ë¸¯æ¹²ï¿½
 		this.endCook[0] = (this.entryTime[0] + (this.timeToCook / 60)) % 60;	//minute
 		this.endCook[1] = (this.entryTime[1] + this.timeToCook) % 60;	//second
 		if (this.entryTime[1] + this.timeToCook >= 60) {
 			this.endCook[0] = (this.endCook[0] + 1) % 60;
 		}
 		
-		// endCook ½Ã°£ÀÌ µÇ¸é Å¥¿¡ serving push
+		// endCook ï¿½ë–†åª›ê¾©ì”  ï¿½ë¦ºï§ï¿½ ï¿½ê±§ï¿½ë¿‰ serving push
 		while(true) {
 			Calendar now = Calendar.getInstance();
 			this.temp[0] = now.get(Calendar.MINUTE);
 			this.temp[1] = now.get(Calendar.SECOND);
 			
 			if(this.temp[0] == this.endCook[0] && this.temp[1] == this.endCook[1]) {
-				// Å¥¿¡ serving push
+				// ï¿½ê±§ï¿½ë¿‰ serving push
 				Queueing.init("serving.", this.tableNum);
-				System.out.println("! Å¥¿¡ push: " + String.valueOf(this.tableNum) + "¹ø Å×ÀÌºí ¼­ºù");
+				System.out.println("! ï¿½ê±§ï¿½ë¿‰ push: " + String.valueOf(this.tableNum) + "è¸°ï¿½ ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ê½Œé®ï¿½");
 				break;
 			}
 		}
 		
-		// ¼­ºù ±â´Ù¸®±â
+		// ï¿½ê½Œé®ï¿½ æ¹²ê³•ë–ç”±Ñˆë¦°
 		servingCountThread t2 = new servingCountThread(this);
 		t2.start();
 		
-		// ¼­ºù ¿Ï·á Àü±îÁö ¾Æ¹« °Íµµ ¾ÈÇÏ±â
+		// ï¿½ê½Œé®ï¿½ ï¿½ì…¿çŒ·ï¿½ ï¿½ìŸ¾æºëš¯ï¿½ ï¿½ë¸˜è‡¾ï¿½ å¯ƒê»Šë£„ ï¿½ë¸ï¿½ë¸¯æ¹²ï¿½
 		while(true) {
-			if(Queueing.isServingDone[this.tableNum-1]) {
-				break;	// ¼­ºùÀÌ ³¡³µ´Ù´Â ½ÅÈ£°¡ ¿À¸é break
+			if(MainFrame.isServingDone[this.tableNum-1]) {
+				break;	// ï¿½ê½Œé®ìˆˆì”  ï¿½ê±¹ï¿½ê¶—ï¿½ë–ï¿½ë’— ï¿½ë–Šï¿½ìƒ‡åª›ï¿½ ï¿½ì‚¤ï§ï¿½ break
 			}
 			try {
 				Thread.sleep(100);
@@ -100,8 +103,8 @@ public class Guest extends Thread{
 			}
 		}
 		
-		// ¼­ºù ¿Ï·á ÈÄ endStay °è»ê
-		// ÇöÀç ½Ã°£¿¡ timeToStay ´õÇÏ±â
+		// ï¿½ê½Œé®ï¿½ ï¿½ì…¿çŒ·ï¿½ ï¿½ì‘ endStay æ€¨ê¾©ê¶›
+		// ï¿½ì½ï¿½ì˜± ï¿½ë–†åª›ê¾©ë¿‰ timeToStay ï¿½ëœ‘ï¿½ë¸¯æ¹²ï¿½
 		Calendar afterServe = Calendar.getInstance();
 		this.endStay[0] = (afterServe.get(Calendar.MINUTE) + (this.timeToStay / 60)) % 60;
 		this.endStay[1] = (afterServe.get(Calendar.SECOND) + this.timeToStay) % 60;
@@ -109,33 +112,34 @@ public class Guest extends Thread{
 			this.endStay[0] = (this.endStay[0] + 1) % 60;
 		}
 		
-		// endStay ½Ã°£ÀÌ µÇ¸é Å¥¿¡ clean push
+		// endStay ï¿½ë–†åª›ê¾©ì”  ï¿½ë¦ºï§ï¿½ ï¿½ê±§ï¿½ë¿‰ clean push
 		while(true) {
 			Calendar now = Calendar.getInstance();
 			this.temp[0] = now.get(Calendar.MINUTE);
 			this.temp[1] = now.get(Calendar.SECOND);
 			
 			if(this.temp[0] == this.endStay[0] && this.temp[1] == this.endStay[1]) {
-				// Å¥¿¡ clean push
+				// ï¿½ê±§ï¿½ë¿‰ clean push
+				MainFrame.haveToClean[this.tableNum - 1] = true;
 				Queueing.init("clean.", tableNum);
-				System.out.println("! Å¥¿¡ push: " + String.valueOf(this.tableNum) + "¹ø Å×ÀÌºí Å¬¸°");
+				System.out.println("! íì— push: " + String.valueOf(this.tableNum) + "í´ë¦°");
 				break;
 			}
 		}
 		
-		// ¸¸Á·µµ °è»êÇÏ°í ÃÑÇÕ¸¸Á·µµ·Î º¸³»±â
+		// ï§ëš¯â€ï¿½ë£„ æ€¨ê¾©ê¶›ï¿½ë¸¯æ€¨ï¿½ ç¥ì•ºë¹€ï§ëš¯â€ï¿½ë£„æ¿¡ï¿½ è¹‚ëŒ€ê¶¡æ¹²ï¿½
 		this.settingTimer -= LIMIT;
 		this.servingTimer -= LIMIT;
 		if(this.settingTimer > 0) {
-			this.satisfaction -= this.settingTimer / 5;	// 5ÃÊ ³Ñ±æ ¶§¸¶´Ù ¸¸Á·µµ°¡ ±ğÀÓ
+			this.satisfaction -= this.settingTimer / 5;	// 5ç¥ï¿½ ï¿½ê½†æ¹²ï¿½ ï¿½ë¸£ï§ëˆë– ï§ëš¯â€ï¿½ë£„åª›ï¿½ æºë¡®ì—«
 		}
 		if(this.servingTimer > 0) {
 			this.satisfaction -= this.servingTimer / 5;
 		}
 
-		MapPane.state[this.tableNum-1].setText("clean. score: " + this.satisfaction);//¼Õ´Ô ³ª°¡¸é ¸¸Á·µµ ¶ç¿ì±â
+		MapPane.state[this.tableNum-1].setText("clean. score: " + this.satisfaction);//ï¿½ë„€ï¿½ë–‚ ï¿½êµ¹åª›ï¿½ï§ï¿½ ï§ëš¯â€ï¿½ë£„ ï¿½ì“£ï¿½ìŠ¦æ¹²ï¿½
 		
-		// clean ÀÌÈÄ¿¡ table_state ¹Ù²Ù°í ÀÌ·± °Å´Â ¿©±â ¸»°í ´Ù¸¥ °÷¿¡ ³Ö±â
+		// clean ï¿½ì” ï¿½ì‘ï¿½ë¿‰ table_state è«›ë¶½ì”€æ€¨ï¿½ ï¿½ì” ï¿½ìœ´ å«„ê³•ë’— ï¿½ë¿¬æ¹²ï¿½ ï§ë¨­í€¬ ï¿½ë–ç‘œï¿½ æ€¨ë…¹ë¿‰ ï¿½ê½”æ¹²ï¿½
 	}
 }
 
@@ -152,28 +156,28 @@ class settingCountThread extends Thread{
 	public void run() {
 		while(true) {
 			
-			if(Queueing.isSettingDone[myG.tableNum-1]) {
-//				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to setting");	// ±â´Ù¸° ½Ã°£ °á°ú
-//				MapPane.state[myG.tableNum-1].setText("setting done in " + myG.settingTimer + "s");	// ±â´Ù¸° ½Ã°£ °á°ú
-				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// È¤½Ã ±ÛÀÚ »ö ¹Ù²¼À¸¸é µ¹·Á³öÁÖ°í
-				MapPane.state[myG.tableNum-1].setText("cook done at " + myG.endCook[0] + ":" + myG.endCook[1]);//¿ä¸®³¡³ª´Â½Ã°£ ¶ç¿ì±â
-				break;	// ¼¼ÆÃÀÌ ³¡³µ´Ù´Â ½ÅÈ£°¡ ¿À¸é break
+			if(MainFrame.isSettingDone[myG.tableNum-1]) {
+//				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to setting");	// æ¹²ê³•ë–ç”±ï¿½ ï¿½ë–†åª›ï¿½ å¯ƒê³Œë‚µ
+//				MapPane.state[myG.tableNum-1].setText("setting done in " + myG.settingTimer + "s");	// æ¹²ê³•ë–ç”±ï¿½ ï¿½ë–†åª›ï¿½ å¯ƒê³Œë‚µ
+				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// ï¿½ìƒŠï¿½ë–† æ¹²ï¿½ï¿½ì˜„ ï¿½ê¹‹ è«›ë¶½í·ï¿½ì‘ï§ï¿½ ï¿½ë£ï¿½ì ®ï¿½ë„„äºŒì‡¨í€¬
+				MapPane.state[myG.tableNum-1].setText("cook done at " + myG.endCook[0] + ":" + myG.endCook[1]);//ï¿½ìŠ‚ç”±Ñ‰ê±¹ï¿½êµ¹ï¿½ë’—ï¿½ë–†åª›ï¿½ ï¿½ì“£ï¿½ìŠ¦æ¹²ï¿½
+				break;	// ï¿½ê½­ï¿½ë˜¿ï¿½ì”  ï¿½ê±¹ï¿½ê¶—ï¿½ë–ï¿½ë’— ï¿½ë–Šï¿½ìƒ‡åª›ï¿½ ï¿½ì‚¤ï§ï¿½ break
 			}
 		
-			// ¼¼ÆÃ Ä«¿îÅÍ ++
+			// ï¿½ê½­ï¿½ë˜¿ ç§»ëŒìŠ«ï¿½ê½£ ++
 			myG.settingTimer = myG.settingTimer + 1;
-			MapPane.state[myG.tableNum-1].setText("wait setting..." + myG.settingTimer);	// ¼¼ÆÃ ´ë±â Å¸ÀÌ¸Ó Ç¥½Ã
+			MapPane.state[myG.tableNum-1].setText("wait setting..." + myG.settingTimer);	// ï¿½ê½­ï¿½ë˜¿ ï¿½ï¿½æ¹²ï¿½ ï¿½ï¿½ï¿½ì” ç™’ï¿½ ï¿½ëª´ï¿½ë–†
 			
-			if(myG.settingTimer == myG.LIMIT) {	// Å×½ºÆ®ÇÒ ¶§ ¼ıÀÚ È® ÁÙ¿©º¸¸é Àß µÇ´ÂÁö ³ª¿È
-				// ¼¼ÆÃÀÌ 3ºĞ ³Ñ°Ô ¾È°¡°í ÀÖÀ¸¸é queue¿¡ ¾Ë·ÁÁÖ±â	(Á¦ÇÑ½Ã°£¸»°í ÀÏ´Ü ÀÌ·¸°Ô)
+			if(myG.settingTimer == myG.LIMIT) {	// ï¿½ë€’ï¿½ë’ªï¿½ë“ƒï¿½ë¸· ï¿½ë¸£ ï¿½ë‹½ï¿½ì˜„ ï¿½ì†— ä»¥ê¾©ë¿¬è¹‚ëŒ€ãˆƒ ï¿½ì˜’ ï¿½ë¦ºï¿½ë’—ï§ï¿½ ï¿½êµ¹ï¿½ìƒ‚
+				// ï¿½ê½­ï¿½ë˜¿ï¿½ì”  3éºï¿½ ï¿½ê½†å¯ƒï¿½ ï¿½ë¸åª›ï¿½æ€¨ï¿½ ï¿½ì—³ï¿½ì‘ï§ï¿½ queueï¿½ë¿‰ ï¿½ë¸£ï¿½ì ®äºŒì‡¨ë¦°	(ï¿½ì £ï¿½ë¸³ï¿½ë–†åª›ê¾¨ì­šæ€¨ï¿½ ï¿½ì”ªï¿½ë–’ ï¿½ì” ï¿½ì ƒå¯ƒï¿½)
 				Queueing.message = "setting." + String.valueOf(myG.tableNum);
 				Queueing.priority();
-				MapPane.state[myG.tableNum-1].setForeground(Color.RED);	// °æ°í gui·Î Ç¥½Ã
-//				System.out.println("~ " + myG.tableNum + "¹ø ¼¼ÆÃ Á¦ÇÑ½Ã°£ ³Ñ±è ~");
+				MapPane.state[myG.tableNum-1].setForeground(Color.RED);	// å¯ƒì„í€¬ guiæ¿¡ï¿½ ï¿½ëª´ï¿½ë–†
+//				System.out.println("~ " + myG.tableNum + "è¸°ï¿½ ï¿½ê½­ï¿½ë˜¿ ï¿½ì £ï¿½ë¸³ï¿½ë–†åª›ï¿½ ï¿½ê½†æºï¿½ ~");
 			}
 			
 			try {
-				Thread.sleep(100);	// 0.1 second (10¹è¼Ó)
+				Thread.sleep(100);	// 0.1 second (10è«›ê³—ëƒ½)
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -193,32 +197,32 @@ class servingCountThread extends Thread{
 	public void run() {
 		while(true) {
 			
-			if(Queueing.isServingDone[myG.tableNum-1]) {
+			if(MainFrame.isServingDone[myG.tableNum-1]) {
 				try {
-					Thread.sleep(500);	// endStay °è»êÇÏ±â±îÁö Àá±ñ ½¬°í
+					Thread.sleep(500);	// endStay æ€¨ê¾©ê¶›ï¿½ë¸¯æ¹²ê³Œí‰´ï§ï¿½ ï¿½ì˜æºï¿½ ï¿½ë©æ€¨ï¿½
 				} catch(InterruptedException e) {
 					e.printStackTrace();
 				}
-//				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to serving");	// ±â´Ù¸° ½Ã°£ °á°ú
-				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// È¤½Ã ±ÛÀÚ »ö ¹Ù²¼À¸¸é µ¹·Á³öÁÖ°í
-				MapPane.state[myG.tableNum-1].setText("stay until " + myG.endStay[0] + ":" + myG.endStay[1]);//¼Õ´ÔÅğÀå½Ã°£ ¶ç¿ì±â
-				break;	// ¼­ºùÀÌ ³¡³µ´Ù´Â ½ÅÈ£°¡ ¿À¸é break
+//				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to serving");	// æ¹²ê³•ë–ç”±ï¿½ ï¿½ë–†åª›ï¿½ å¯ƒê³Œë‚µ
+				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// ï¿½ìƒŠï¿½ë–† æ¹²ï¿½ï¿½ì˜„ ï¿½ê¹‹ è«›ë¶½í·ï¿½ì‘ï§ï¿½ ï¿½ë£ï¿½ì ®ï¿½ë„„äºŒì‡¨í€¬
+				MapPane.state[myG.tableNum-1].setText("stay until " + myG.endStay[0] + ":" + myG.endStay[1]);//ï¿½ë„€ï¿½ë–‚ï¿½ëˆœï¿½ì˜£ï¿½ë–†åª›ï¿½ ï¿½ì“£ï¿½ìŠ¦æ¹²ï¿½
+				break;	// ï¿½ê½Œé®ìˆˆì”  ï¿½ê±¹ï¿½ê¶—ï¿½ë–ï¿½ë’— ï¿½ë–Šï¿½ìƒ‡åª›ï¿½ ï¿½ì‚¤ï§ï¿½ break
 			}
 		
-			// ¼­ºù Ä«¿îÅÍ ++
+			// ï¿½ê½Œé®ï¿½ ç§»ëŒìŠ«ï¿½ê½£ ++
 			myG.servingTimer = myG.servingTimer + 1;
-			MapPane.state[myG.tableNum-1].setText("wait serving..." + myG.servingTimer);	// ¼­ºù ´ë±â Å¸ÀÌ¸Ó Ç¥½Ã
+			MapPane.state[myG.tableNum-1].setText("wait serving..." + myG.servingTimer);	// ï¿½ê½Œé®ï¿½ ï¿½ï¿½æ¹²ï¿½ ï¿½ï¿½ï¿½ì” ç™’ï¿½ ï¿½ëª´ï¿½ë–†
 			
 			if(myG.servingTimer == myG.LIMIT) {
-				// ¼­ºùÀÌ 3ºĞ ³Ñ°Ô ¾È°¡°í ÀÖÀ¸¸é queue¿¡ ¾Ë·ÁÁÖ±â	(Á¦ÇÑ½Ã°£¸»°í ÀÏ´Ü ÀÌ·¸°Ô)
+				// ï¿½ê½Œé®ìˆˆì”  3éºï¿½ ï¿½ê½†å¯ƒï¿½ ï¿½ë¸åª›ï¿½æ€¨ï¿½ ï¿½ì—³ï¿½ì‘ï§ï¿½ queueï¿½ë¿‰ ï¿½ë¸£ï¿½ì ®äºŒì‡¨ë¦°	(ï¿½ì £ï¿½ë¸³ï¿½ë–†åª›ê¾¨ì­šæ€¨ï¿½ ï¿½ì”ªï¿½ë–’ ï¿½ì” ï¿½ì ƒå¯ƒï¿½)
 				Queueing.message = "serving." + String.valueOf(myG.tableNum);
 				Queueing.priority();
-				MapPane.state[myG.tableNum-1].setForeground(Color.RED);	// °æ°í gui·Î Ç¥½Ã
-//				System.out.println("~ " + myG.tableNum + "¹ø ¼­ºù Á¦ÇÑ½Ã°£ ³Ñ±è ~");
+				MapPane.state[myG.tableNum-1].setForeground(Color.RED);	// å¯ƒì„í€¬ guiæ¿¡ï¿½ ï¿½ëª´ï¿½ë–†
+//				System.out.println("~ " + myG.tableNum + "è¸°ï¿½ ï¿½ê½Œé®ï¿½ ï¿½ì £ï¿½ë¸³ï¿½ë–†åª›ï¿½ ï¿½ê½†æºï¿½ ~");
 			}
 			
 			try {
-				Thread.sleep(100);	// 0.1 second (10¹è¼Ó)
+				Thread.sleep(100);	// 0.1 second (10è«›ê³—ëƒ½)
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}
