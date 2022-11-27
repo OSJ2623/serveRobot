@@ -134,7 +134,7 @@ public class MapPane extends JPanel implements ActionListener{
         robot1[1] = temp1[1];
         robot2[0] = temp2[0];
         robot2[1] = temp2[1];
-        timer = new Timer(10, this);
+        timer = new Timer(1, this);
         timerUtil = new java.util.Timer();
         
         

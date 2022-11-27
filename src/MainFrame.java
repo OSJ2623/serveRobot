@@ -85,6 +85,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 			robot1 = mp.getInfo(1);
 			robot2 = mp.getInfo(2);
 
+
 			if (temp_str[0].equals("serving") || temp_str[0].equals("setting"))// if "serving" or "settting"
 			{
 				if (temp_str[0].equals("setting"))// if "setting"
@@ -102,14 +103,20 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
-					if (dj.workRobot() == 1)
+					if (dj.workRobot() == 1) {
 						dj.init(node, setting, robot2, 1);
-					else if (dj.workRobot() == 2)
+						robot_doing[0] = temp_str[0];
+						robot_table[0] = Integer.parseInt(temp_str[1]);
+					} else if (dj.workRobot() == 2) {
 						dj.init(node, robot1, setting, 2);
+						robot_doing[1] = temp_str[0];
+						robot_table[1] = Integer.parseInt(temp_str[1]);
+					}
 
 					while (true) {
-
-						if (mp.getInfo(dj.workRobot())[0] == setting[0] && mp.getInfo(dj.workRobot())[1] == setting[1])
+						Queueing.priority();
+						if (mp.getInfo(dj.workRobot())[0] == setting[0]
+								&& mp.getInfo(dj.workRobot())[1] == setting[1])
 							break;
 						System.out.println(mp.getInfo(dj.workRobot())[0]);
 					}
@@ -133,14 +140,20 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
-					if (dj.workRobot() == 1)
+					if (dj.workRobot() == 1) {
 						dj.init(node, serving, robot2, 1);
-					else if (dj.workRobot() == 2)
+						robot_doing[0] = temp_str[0];
+						robot_table[0] = Integer.parseInt(temp_str[1]);
+					} else if (dj.workRobot() == 2) {
 						dj.init(node, robot1, serving, 2);
+						robot_doing[1] = temp_str[0];
+						robot_table[1] = Integer.parseInt(temp_str[1]);
+					}
 
 					while (true) {
 
-						if (mp.getInfo(dj.workRobot())[0] == serving[0] && mp.getInfo(dj.workRobot())[1] == serving[1])
+						if (mp.getInfo(dj.workRobot())[0] == serving[0]
+								&& mp.getInfo(dj.workRobot())[1] == serving[1])
 							break;
 						System.out.println(mp.getInfo(dj.workRobot())[0]);
 					}
@@ -149,184 +162,69 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					dest = dj.dest_num();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
-				} else if (temp_str[0].equals("refull"))// if refull
-				{
-					// �몢 濡쒕큸 以� �늻媛� �븷 吏�
-					dj.init(3, robot1, robot2, working_robot);
-
-					dest = dj.dest_num();
-					/*
-					 * for(int i = 0; i < dj.list_result().length; i++)
-					 * System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
-					 * System.out.println(dest); System.out.println(dj.workRobot());
-					 */
-					// System.out.println(dj.list_result()[0]);()
-					visit_xy = dj.list_result();
-					mp.setRobot(dj.workRobot(), visit_xy, dest);
-
-					if (dj.workRobot() == 1)
-						dj.init(1, serving, robot2, 1);
-					else if (dj.workRobot() == 2)
-						dj.init(1, robot1, serving, 2);
-
-					while (true) {
-
-						if (mp.getInfo(dj.workRobot())[0] == serving[0] && mp.getInfo(dj.workRobot())[1] == serving[1])
-							break;
-						System.out.println(mp.getInfo(dj.workRobot())[0]);
-					}
-
-					visit_xy = null;
-					visit_xy = dj.list_result();
-					dest = dj.dest_num();
-					mp.setRobot(dj.workRobot(), visit_xy, dest);
-					queue.dish = 10;
-				} else if (temp_str[0].equals("clean"))// if clean
-				{
-					dj.init(node, robot1, robot2, working_robot);
-
-					dest = dj.dest_num();
-					// don't need node?
-					visit_xy = dj.list_result();
-					if (temp_str[0].equals("serving") || temp_str[0].equals("setting"))// if "serving" or "settting"
-					{
-						if (temp_str[0].equals("setting"))// if "setting"
-						{
-							// �몢 濡쒕큸 以� �늻媛� �븷 吏�
-							dj.init(1, robot1, robot2, working_robot);
-
-							dest = dj.dest_num();
-							/*
-							 * for(int i = 0; i < dj.list_result().length; i++)
-							 * System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
-							 * System.out.println(dest); System.out.println(dj.workRobot());
-							 */
-							// System.out.println(dj.list_result()[0]);()
-							visit_xy = dj.list_result();
-							mp.setRobot(dj.workRobot(), visit_xy, dest);
-
-							if (dj.workRobot() == 1) {
-								dj.init(node, setting, robot2, 1);
-								robot_doing[0] = temp_str[0];
-								robot_table[0] = Integer.parseInt(temp_str[1]);
-							} else if (dj.workRobot() == 2) {
-								dj.init(node, robot1, setting, 2);
-								robot_doing[1] = temp_str[0];
-								robot_table[1] = Integer.parseInt(temp_str[1]);
-							}
-
-							while (true) {
-								Queueing.priority();
-								if (mp.getInfo(dj.workRobot())[0] == setting[0]
-										&& mp.getInfo(dj.workRobot())[1] == setting[1])
-									break;
-								System.out.println(mp.getInfo(dj.workRobot())[0]);
-							}
-							visit_xy = null;
-							visit_xy = dj.list_result();
-							dest = dj.dest_num();
-							mp.setRobot(dj.workRobot(), visit_xy, dest);
-
-						} else if (temp_str[0].equals("serving")) // if "serving"
-						{
-							// �몢 濡쒕큸 以� �늻媛� �븷 吏�
-							dj.init(3, robot1, robot2, working_robot);
-
-							dest = dj.dest_num();
-							/*
-							 * for(int i = 0; i < dj.list_result().length; i++)
-							 * System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
-							 * System.out.println(dest); System.out.println(dj.workRobot());
-							 */
-							// System.out.println(dj.list_result()[0]);()
-							visit_xy = dj.list_result();
-							mp.setRobot(dj.workRobot(), visit_xy, dest);
-
-							if (dj.workRobot() == 1) {
-								dj.init(node, serving, robot2, 1);
-								robot_doing[0] = temp_str[0];
-								robot_table[0] = Integer.parseInt(temp_str[1]);
-							} else if (dj.workRobot() == 2) {
-								dj.init(node, robot1, serving, 2);
-								robot_doing[1] = temp_str[0];
-								robot_table[1] = Integer.parseInt(temp_str[1]);
-							}
-
-							while (true) {
-
-								if (mp.getInfo(dj.workRobot())[0] == serving[0]
-										&& mp.getInfo(dj.workRobot())[1] == serving[1])
-									break;
-								System.out.println(mp.getInfo(dj.workRobot())[0]);
-							}
-
-							visit_xy = null;
-							visit_xy = dj.list_result();
-							dest = dj.dest_num();
-							mp.setRobot(dj.workRobot(), visit_xy, dest);
-						}
-
-					} else if (temp_str[0].equals("refull"))// if refull
-					{
-						// �몢 濡쒕큸 以� �늻媛� �븷 吏�
-						dj.init(3, robot1, robot2, working_robot);
-
-						dest = dj.dest_num();
-						/*
-						 * for(int i = 0; i < dj.list_result().length; i++)
-						 * System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
-						 * System.out.println(dest); System.out.println(dj.workRobot());
-						 */
-						// System.out.println(dj.list_result()[0]);()
-						visit_xy = dj.list_result();
-						mp.setRobot(dj.workRobot(), visit_xy, dest);
-
-						if (dj.workRobot() == 1) {
-							dj.init(1, serving, robot2, 1);
-							robot_doing[0] = temp_str[0];
-							robot_table[0] = Integer.parseInt(temp_str[1]);
-						} else if (dj.workRobot() == 2) {
-							dj.init(1, robot1, serving, 2);
-							robot_doing[1] = temp_str[0];
-							robot_table[1] = Integer.parseInt(temp_str[1]);
-						}
-
-						while (true) {
-
-							if (mp.getInfo(dj.workRobot())[0] == serving[0]
-									&& mp.getInfo(dj.workRobot())[1] == serving[1])
-								break;
-							System.out.println(mp.getInfo(dj.workRobot())[0]);
-						}
-
-						visit_xy = null;
-						visit_xy = dj.list_result();
-						dest = dj.dest_num();
-						mp.setRobot(dj.workRobot(), visit_xy, dest);
-//				queue.dish = 5;	// mapPane�뿉 濡쒕큸�씠 �씪�걹�굹硫� �븯�뒗 �룞�옉 履쎌쑝濡� �씠�룞.
-					} else if (temp_str[0].equals("clean"))// if clean
-					{
-						dj.init(node, robot1, robot2, working_robot);
-						if (dj.workRobot() == 1) {
-							robot_doing[0] = temp_str[0];
-							robot_table[0] = Integer.parseInt(temp_str[1]);
-						} else if (dj.workRobot() == 2) {
-							robot_doing[1] = temp_str[0];
-							robot_table[1] = Integer.parseInt(temp_str[1]);
-						}
-						dest = dj.dest_num();
-						// don't need node?
-						visit_xy = dj.list_result();
-						mp.setRobot(dj.workRobot(), visit_xy, dest);
-
-					}
 				}
+
+			} else if (temp_str[0].equals("refull"))// if refull
+			{
+				// �몢 濡쒕큸 以� �늻媛� �븷 吏�
+				dj.init(3, robot1, robot2, working_robot);
+
+				dest = dj.dest_num();
+				/*
+				 * for(int i = 0; i < dj.list_result().length; i++)
+				 * System.out.println(dj.list_result()[i][0] + "," + dj.list_result()[i][1]);
+				 * System.out.println(dest); System.out.println(dj.workRobot());
+				 */
+				// System.out.println(dj.list_result()[0]);()
+				visit_xy = dj.list_result();
+				mp.setRobot(dj.workRobot(), visit_xy, dest);
+
+				if (dj.workRobot() == 1) {
+					dj.init(1, serving, robot2, 1);
+					robot_doing[0] = temp_str[0];
+					robot_table[0] = Integer.parseInt(temp_str[1]);
+				} else if (dj.workRobot() == 2) {
+					dj.init(1, robot1, serving, 2);
+					robot_doing[1] = temp_str[0];
+					robot_table[1] = Integer.parseInt(temp_str[1]);
+				}
+
+				while (true) {
+
+					if (mp.getInfo(dj.workRobot())[0] == serving[0]
+							&& mp.getInfo(dj.workRobot())[1] == serving[1])
+						break;
+					System.out.println(mp.getInfo(dj.workRobot())[0]);
+				}
+
+				visit_xy = null;
+				visit_xy = dj.list_result();
+				dest = dj.dest_num();
+				mp.setRobot(dj.workRobot(), visit_xy, dest);
+
+			} else if (temp_str[0].equals("clean"))// if clean
+			{
+				dj.init(node, robot1, robot2, working_robot);
+				if (dj.workRobot() == 1) {
+					robot_doing[0] = temp_str[0];
+					robot_table[0] = Integer.parseInt(temp_str[1]);
+				} else if (dj.workRobot() == 2) {
+					robot_doing[1] = temp_str[0];
+					robot_table[1] = Integer.parseInt(temp_str[1]);
+				}
+				dest = dj.dest_num();
+				// don't need node?
+				visit_xy = dj.list_result();
+				mp.setRobot(dj.workRobot(), visit_xy, dest);
+
 			}
 		}
 	}
 
-	public void init() {
-		// initialize GUI
+
+
+public void init() {
+	// initialize GUI
 
 		// 嶺뚢댙�삕 嶺뚣끉裕뉛옙爰뽩뜝�럡苡욜뼨�먯삕 �뜝�럡�맟�뜝�럩�젧(嶺뚮씭踰딉옙逾�
 		// �뜝�럥�닱嶺뚣�볦뒦占쎌쟽�뜝�럩�몠嶺뚯쉻�삕�뜝�럥利꿨슖�댙�삕)
