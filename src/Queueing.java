@@ -196,6 +196,9 @@ public class Queueing {
 		}
 			
 
+<<<<<<< HEAD
+>>>>>>> parent of d2d90ed (우리 로봇 돌아가요 와ㅠ)
+=======
 >>>>>>> parent of d2d90ed (우리 로봇 돌아가요 와ㅠ)
 
 		
