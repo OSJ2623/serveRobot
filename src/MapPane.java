@@ -2,7 +2,7 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.Timer;
-import java.util.TimerTask;
+
 import java.util.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,11 +21,7 @@ public class MapPane extends JPanel implements ActionListener{
     
     Image map, robot_front1, robot_back1, robot_front2, robot_back2;
     
-    javax.swing.Timer timer;
-    java.util.Timer timerUtil;
-    TimerTask task1;
-    TimerTask task2;
-    TimerTask taskStop;
+    Timer timer;
     
     int xVel = 1, yVel = 1;
     
@@ -45,73 +41,6 @@ public class MapPane extends JPanel implements ActionListener{
 	
     int[] dest1, dest2;
     
-    /*
-    public void stopTask(int num) {
-    	taskStop = new TimerTask() {
-    		@Override
-    		public void run() {
-    	    	timerUtil = new java.util.Timer();
-    	    	
-    		}
-    	};
-
-    	if(num == 1 && way1.isEmpty() == true) {
-    		tempTask(1);
-    	}
-    	else if(num == 2 && way2.isEmpty() == true) {
-    		tempTask(2);
-    	}
-    }
-    */
-    public void tempTask(int num) {
-    	int[] robot1 = {0,0}, robot2 = {0,0};
-        robot1[0] = temp1[0];
-        robot1[1] = temp1[1];
-        robot2[0] = temp2[0];
-        robot2[1] = temp2[1];
-        task1 = new TimerTask() {
-        	@Override
-        	public void run() {
-        		if(way1.isEmpty() == true) {
-	        		dj.init(1, robot1, robot2, 1);
-	        		int[][] position = { {0,}};
-	        		position = dj.list_result();
-	        		for(int i = 0; i < position.length; i++) {
-	        			if(position[i][0] != 0 && position[i][1] != 0) {
-	        				way1.add(new Point(position[i][0], position[i][1]));
-	        				temp1[0] = position[i][0];
-	        				temp1[1] = position[i][1];
-	        			}
-	        		}
-	        	}
-        	}
-        };
-        task2 = new TimerTask() {
-        	@Override
-        	public void run() {
-        		if(way2.isEmpty() == true) {
-	        		dj.init(1, robot1, robot2, 2);
-	        		int[][] position = { {0,}};
-	        		position = dj.list_result();
-	        		for(int i = 0; i < position.length; i++) {
-	        			if(position[i][0] != 0 && position[i][1] != 0) {
-	        				way2.add(new Point(position[i][0], position[i][1]));
-	        				temp2[0] = position[i][0];
-	        				temp2[1] = position[i][1];
-	        			}
-	        		}
-        		}
-        	}
-        };
-    	timerUtil = new java.util.Timer();
-    	if(num == 1) {
-    		timerUtil.schedule(task1, 3000);
-    	}
-    	else if(num==2) {
-    		timerUtil.schedule(task2, 3000);
-    	}
-    }
-    
     public MapPane() {
         initComponents();
         robot_front1 = new ImageIcon("./images/robot1.png").getImage();
@@ -129,6 +58,7 @@ public class MapPane extends JPanel implements ActionListener{
         
         robot_back1 = new ImageIcon("./images/robot_back.png").getImage();
         
+<<<<<<< HEAD
         int[] robot1 = {0,0}, robot2 = {0,0};
         robot1[0] = temp1[0];
         robot1[1] = temp1[1];
@@ -138,6 +68,9 @@ public class MapPane extends JPanel implements ActionListener{
         timerUtil = new java.util.Timer();
         
         
+=======
+        timer = new Timer(10, this);
+>>>>>>> parent of f6c9ff0 (세팅존으로 돌아가기)
         timer.start();
     }
     
@@ -209,10 +142,15 @@ public class MapPane extends JPanel implements ActionListener{
     public void paint(Graphics g){
     	super.paint(g);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     	System.out.println(way1.isEmpty());
     	System.out.println(way2.isEmpty());
 >>>>>>> parent of b85621c (거의 다 왔어요...)
+=======
+//    	System.out.println(way1.isEmpty());
+//    	System.out.println(way2.isEmpty());
+>>>>>>> parent of f6c9ff0 (세팅존으로 돌아가기)
     	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
@@ -236,11 +174,7 @@ public class MapPane extends JPanel implements ActionListener{
     @Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-    	int[] robot1 = {0,0}, robot2 = {0,0};
-        robot1[0] = temp1[0];
-        robot1[1] = temp1[1];
-        robot2[0] = temp2[0];
-        robot2[1] = temp2[1];
+
     	/*
     	if(x > 600-robot_front1.getWidth(null) || x<0) {
     		
@@ -299,6 +233,7 @@ public class MapPane extends JPanel implements ActionListener{
 				flag1 = 0;
 //				System.out.println("flag1 변경 :" + flag1);
 			}
+<<<<<<< HEAD
 
 			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 				// robot1 arrived to destination.
@@ -338,6 +273,21 @@ public class MapPane extends JPanel implements ActionListener{
 				
 				tempTask(1);
 			}
+=======
+			/*
+			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
+				try {
+					//Thread.sleep(1000);
+					//this.way1.add(new Point(200, 80));
+					dj.init(1, 100, 100, 1);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}*/
+		}
+		else {
+>>>>>>> parent of f6c9ff0 (세팅존으로 돌아가기)
 			
 		}
 		else {			
@@ -374,6 +324,7 @@ public class MapPane extends JPanel implements ActionListener{
 //				System.out.println("flag2 변경" + flag2);
 				flag2 = 0;
 			}
+<<<<<<< HEAD
 
 			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 				// robot2 arrived to destination.
@@ -409,6 +360,18 @@ public class MapPane extends JPanel implements ActionListener{
 				
 				tempTask(2);
 			}
+=======
+			/*
+			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
+				try {
+					Thread.sleep(100);
+					this.way2.add(new Point(200, 80));
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}*/
+>>>>>>> parent of f6c9ff0 (세팅존으로 돌아가기)
 		}
 		repaint();
 	}
