@@ -1,15 +1,15 @@
 public class Dijkstra {
-	private int n = 12; //number of nodes
-	private int[][] Graph; //store 1 if the nodes are connected
-	private int[] visitList; //visiting order(node number)
-	private int[][] visit_xy; //visiting order(x, y)
-	private int[] distance; //store total distance
-	private boolean[] visited; //store that the node is already visited
-	private int end; //endpoint
-	private int[] robots; //current location of the robots
-	private int r; //store which robot to work for
-	private int robot_status; //robot status(working or not)
-	private int [][] node_list = { // every nodes coordinates
+	private int n = 12; //node 수
+	private int[][] Graph; //어느 노드끼리 이웃해있는지
+	private int[] visitList; //방문 순서(노드번호)
+	private int[] distance; //거리 저장
+	private boolean[] visited; //노드를 방문했는지 확인해주는 리스트
+	private int[][] visit_xy; //방문 순서(노드좌표)
+	private int end; //종착점
+	private int[] robots; //로봇들의 현재 위치
+	private int r; //움직일 로봇
+	private int robot_status; //움직일 수 있는 로봇
+	private int [][] node_list = {
 			{200, 80},
 			{300, 80},
 			{400, 80},
@@ -24,18 +24,16 @@ public class Dijkstra {
 			{400, 480}
 	};
 	
-	
 	public Dijkstra() {
 		super();
 	}
 	
-	//initiallize
+	//초기화
 	public void init(
-			int end, //endpoint
-			int[] robot1, //robot1's coordinate
-			int[] robot2, //robot2's coordinate
-			int robot_status) //robot status
-	{
+			int end, //목적지
+			int[] robot1, //로봇 현재 위치
+			int[] robot2, 
+			int robot_status) {
 		Graph = new int[n][n];
 		visitList = new int[n];
 		distance = new int[n];
@@ -45,22 +43,21 @@ public class Dijkstra {
 		robots[0] = change_Num(robot1);
 		robots[1] = change_Num(robot2);
 		this.robot_status = robot_status;
-		
-		//run the main function of Dijkstra after initiallize
+		//초기화 한 후 바로 실행
 		Do_Dijkstra();
 	}
 	
-	//return visiting order
+	//방문 순서 받아오는 함수
 	public int[][] list_result(){
 		return visit_xy;
 	}
 	
-	//return which robot to work for
+	//움직여야 하는 로봇 번호 받아오는 함수
 	public int workRobot(){
 		return r;
 	}
 	
-	//return endpoint's coordinates
+	//목적지 노드 좌표 받아오는 함수
 	public int[] dest_num(){
 		
 		int[] node_xy = new int[2];
@@ -70,12 +67,10 @@ public class Dijkstra {
 		return node_xy;
 	}
 	
-	//change coordinates to node number
 	public int change_Num(int[] xy) {
 		
 		int nodeNum = 0;
 		
-		//returns the index of a match coordinates in the list
 		for(int i = 0; i<n; i++) {
 			if(node_list[i][0]==xy[0] && node_list[i][1]==xy[1]) {
 				nodeNum = i;
@@ -86,28 +81,25 @@ public class Dijkstra {
 	}
 
 	
-	//store the connected nodes
+	//연결된 노드들을 저장해주는 함수
 	public void get_Graph(int a, int b) {
 		a--;
 		b--;
-		
-		//store 1 because distances between nodes are all the same
 		Graph[a][b] = Graph[a][b] = 1;
 	}
 	
-	//Set the distance to the largest integer
+	//거리를 가장 큰 정수로 미리 초기화해주는 함수
 	private void set_distance() {
 		for(int i = 0; i < n ; i++) {
 			distance[i] = Integer.MAX_VALUE;
 		}
 	}
 	
-	//store connected nodes' distance
+	//이웃한 노드들의 거리를 저장해주는 함수
 	private void neighbor_dist(int start) {
 		
 		for(int i = 0; i<n; i++) {
 			
-			//if the node is not visited, and connected, save distance
 			if(!visited[i] && Graph[start][i]!=0) {
 				distance[i] = 1;
 				visitList[i] = start;
@@ -115,7 +107,7 @@ public class Dijkstra {
 		}
 	}
 	
-	//update if there is a more efficient route
+	//더 효율적인 루트가 있을 시 반영해주는 함수
 	private void update_dist(int start) {
 		
 		
@@ -124,7 +116,6 @@ public class Dijkstra {
 			int min = Integer.MAX_VALUE;
 			int minNode = -1;
 			
-			//find the min value of distance
 			for(int j = 0; j<n; j++) {
 				
 				if(!visited[j] && distance[j]<Integer.MAX_VALUE) {
@@ -134,11 +125,14 @@ public class Dijkstra {
 					}
 				}
 			}
+<<<<<<< HEAD
 			System.out.println("minNode ::::: " + minNode);
 			//visit that node
+=======
+			
+>>>>>>> parent of dae8b68 (다익스트라 주석 수정)
 			visited[minNode] = true;
 			
-			//the value stored endpoint to k is bigger than a value passing through minNode, update
 			for(int k = 0; k<n; k++) {
 				
 				if(!visited[k] && Graph[minNode][k]!=0) {
@@ -152,16 +146,13 @@ public class Dijkstra {
 		}
 	}
 	
-	//return which robot to work for
+	//어느 로봇이 더 가까이 있는지 반환해주는 함수
 	private int robot_num(int robot1, int robot2, int robot_status) {
 		
-		// 1 means robot1 is not working now
-		// 2 means robot2 is not working now
 		if(robot_status == 1 || robot_status == 2) {
 			return robot_status-1;
 		}
 		
-		//return the closer robot's number
 		if(distance[robot1]> distance[robot2]) {
     		return 1;
     	}
@@ -169,7 +160,7 @@ public class Dijkstra {
     		return 0;
 	}
 	
-	//change the list stored by node number to coordinate value
+	//노드번호로 저장된 리스트를 좌표값으로 바꿔주는 함수
 	private int[][] get_location_list(int[] list, int length){
 		
 		int [][] location_list = new int[length+1][2];
@@ -182,7 +173,7 @@ public class Dijkstra {
 		return location_list;
 	}
 	
-	//store what nodes are connected
+	//현재 map을 그대로 저장해주는 함수
 	private void set_Graph() {
 		get_Graph(1,2);
 		get_Graph(1,4);
@@ -210,35 +201,30 @@ public class Dijkstra {
 		get_Graph(12,10);
 	}
 	
-	//do dijkstra
+	//함수들을 필요한대로 실행시켜주는 함수
 	public void Do_Dijkstra() {
 		
-		int start = end; //do dijkstra from endpoint to robots
+		int start = end;
 		int robot1 = robots[0];
 		int robot2 = robots[1];
 		
 		start--;
 		
-		//save map
 		set_Graph();
-		
-		//set distance list
 		set_distance();
 		
 		distance[start] = 0;
 		visited[start] = true;
 		visitList[start] = start;
 		
-		//store connected nodes' distance
 		neighbor_dist(start);
 		
-		//update if there is a more efficient route
 		update_dist(start);
 		
 		int Robot = robot_num(robot1, robot2, robot_status);
 		r = Robot+1;
 		
-		//from the endpoint to the other nodes, store route in the list upside down
+		//종착점에서 로봇위치까지 거꾸로 list에 저장해주는 함수
 		for(int i=0; i<n; i++) {
 			int[] route = new int[n];
 			for(int k = 0 ; k<n ;k++) {
@@ -253,12 +239,11 @@ public class Dijkstra {
 				j++;
 			}
 			
-			//if the working robot's node, 
+			//종착점에서 로봇위치까지의 결과 저장하고 종료
 			if(i == robots[Robot]) {
 				
 				int[][] location_list = new int[j][2];
 				
-				//change the list stored by node number to coordinate value
 				location_list = get_location_list(route, j);
 				
 				visit_xy = location_list;
