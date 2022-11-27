@@ -25,13 +25,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 	public static int[][] visit_xy = null;// add visited nodes++++++++++++++++++++++++++
 	public static int[] dest = null;// add dest nodes
 	private static int[][] transfer = null;// add transfer nodes++++++++++++++++++++
-	
-	public static int[] table_state =new int[6];
-	public static boolean[] isSettingDone =new boolean[6];
-	public static boolean[] isServingDone =new boolean[6];
-	public static boolean[] haveToClean = new boolean[6];
-	public static String[] robot_doing = new String[] {"", ""};
-	public static int[] robot_table = new int[2];
+	// private static int[] robot_state;
 
 	public static void main(String args[]) throws Exception { // out()占쎌뱽 占쎌맄占쎈퉸 throws Exception �빊遺쏙옙
 
@@ -96,16 +90,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
-					if (dj.workRobot() == 1) {
+					if (dj.workRobot() == 1)
 						dj.init(node, setting, robot2, 1);
-						robot_doing[0] = temp_str[0];
-						robot_table[0] = Integer.parseInt(temp_str[1]);
-					}
-					else if (dj.workRobot() == 2) {
+					else if (dj.workRobot() == 2)
 						dj.init(node, robot1, setting, 2);
-						robot_doing[1] = temp_str[0];
-						robot_table[1] = Integer.parseInt(temp_str[1]);
-					}
 
 					while (true) {
 						Queueing.priority();
@@ -117,6 +105,9 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					dest = dj.dest_num();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
+
+					queue.isSettingDone[Integer.parseInt(temp_str[1])-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+					MapPane.table[Integer.parseInt(temp_str[1])-1].repaint();	// 테이블 그림 바꾸기
 
 				} else if (temp_str[0].equals("serving")) // if "serving"
 				{
@@ -133,17 +124,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
 
-					if (dj.workRobot() == 1) {
+					if (dj.workRobot() == 1)
 						dj.init(node, serving, robot2, 1);
-						robot_doing[0] = temp_str[0];
-						robot_table[0] = Integer.parseInt(temp_str[1]);
-					}
-					else if (dj.workRobot() == 2) {
+					else if (dj.workRobot() == 2)
 						dj.init(node, robot1, serving, 2);
-						robot_doing[1] = temp_str[0];
-						robot_table[1] = Integer.parseInt(temp_str[1]);
-					}
-					
+
 					while (true) {
 
 						if (mp.getInfo(dj.workRobot())[0] == serving[0] && mp.getInfo(dj.workRobot())[1] == serving[1])
@@ -155,6 +140,9 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 					visit_xy = dj.list_result();
 					dest = dj.dest_num();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
+					
+					queue.isServingDone[Integer.parseInt(temp_str[1])-1] = true;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+					MapPane.table[Integer.parseInt(temp_str[1])-1].repaint();	// 테이블 그림 바꾸기
 				}
 
 			} else if (temp_str[0].equals("refull"))// if refull
@@ -172,17 +160,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 				visit_xy = dj.list_result();
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
 
-				if (dj.workRobot() == 1) {
+				if (dj.workRobot() == 1)
 					dj.init(1, serving, robot2, 1);
-					robot_doing[0] = temp_str[0];
-					robot_table[0] = Integer.parseInt(temp_str[1]);
-				}
-				else if (dj.workRobot() == 2) {
+				else if (dj.workRobot() == 2)
 					dj.init(1, robot1, serving, 2);
-					robot_doing[1] = temp_str[0];
-					robot_table[1] = Integer.parseInt(temp_str[1]);
-				}
-				
+
 				while (true) {
 
 					if (mp.getInfo(dj.workRobot())[0] == serving[0] && mp.getInfo(dj.workRobot())[1] == serving[1])
@@ -194,22 +176,20 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 				visit_xy = dj.list_result();
 				dest = dj.dest_num();
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
-//				queue.dish = 5;	// mapPane에 로봇이 일끝나면 하는 동작 쪽으로 이동.
+				queue.dish = 5;
 			} else if (temp_str[0].equals("clean"))// if clean
 			{
 				dj.init(node, robot1, robot2, working_robot);
-				if (dj.workRobot() == 1) {
-					robot_doing[0] = temp_str[0];
-					robot_table[0] = Integer.parseInt(temp_str[1]);
-				}
-				else if (dj.workRobot() == 2) {
-					robot_doing[1] = temp_str[0];
-					robot_table[1] = Integer.parseInt(temp_str[1]);
-				}
 				dest = dj.dest_num();
 				// don't need node?
 				visit_xy = dj.list_result();
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
+				
+				queue.table_state[Integer.parseInt(temp_str[1])-1]=0;	// 로봇이 일을 끝낸 후에 바껴야 하지만 우선 여기에...
+				MapPane.table[Integer.parseInt(temp_str[1])-1].repaint();	// 테이블 그림 바꾸기
+				MapPane.state[Integer.parseInt(temp_str[1])-1].setText("");	// table 상태 메시지 초기화
+				queue.isSettingDone[Integer.parseInt(temp_str[1])-1] = false;
+				queue.isServingDone[Integer.parseInt(temp_str[1])-1] = false;
 			}
 		}
 	}
@@ -325,12 +305,12 @@ public class MainFrame extends JFrame implements Runnable, ActionListener {
 		if (e.getSource() == guestEntranceBtn) {
 			// �뜮占� 占쎈�믭옙�뵠�뇡占� 筌ｋ똾寃�
 			for (int i = 0; i < 6; i++) {
-				if (table_state[i] == 0) {
+				if (Queueing.table_state[i] == 0) {
 					// 占쎌뵠 占쎈�믭옙�뵠�뇡占� 占쎄퐜甕곌쑬占쏙옙 占쎄퐜野꺿뫁竊쒏�⑨옙 guest 占쎄문占쎄쉐. 占쎈�믭옙�뵠�뇡占� 占쎈툩占쎈뮉
 					// 占쎌쁽�뵳�됰뮉 占쎌뵬占쎈뼊 占쎌삏占쎈쑁 占쎈툡占쎈뻷
 					guest[i] = new Guest(i); // guest 占쎄문占쎄쉐, �룯�뜃由곤옙�넅
 					guest[i].start(); // guest thread 占쎈뻻占쎌삂
-					table_state[i] = 1; // 占쎌쁽�뵳占� 筌∽옙
+					Queueing.table_state[i] = 1; // 占쎌쁽�뵳占� 筌∽옙
 					MapPane.table[i].setBackground(Color.LIGHT_GRAY); // �옄由� 李쇰떎�뒗 �몴�떆 gui
 					break;
 				} else {

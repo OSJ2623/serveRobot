@@ -57,7 +57,6 @@ public class Guest extends Thread{
 		
 		// �걧�뿉 setting push
 		Queueing.init("setting.", tableNum);
-		Queueing.dish -= 1;
 		// �빆�긽 init �썑�뿉 priority �샇異�. init() �븞�뿉 吏곸젒 �꽔�뼱�몺.
 		System.out.println("! �걧�뿉 push: " + String.valueOf(this.tableNum) + "踰� �뀒�씠釉� �꽭�똿");
 		
@@ -93,7 +92,7 @@ public class Guest extends Thread{
 		
 		// �꽌鍮� �셿猷� �쟾源뚯� �븘臾� 寃껊룄 �븞�븯湲�
 		while(true) {
-			if(MainFrame.isServingDone[this.tableNum-1]) {
+			if(Queueing.isServingDone[this.tableNum-1]) {
 				break;	// �꽌鍮숈씠 �걹�궗�떎�뒗 �떊�샇媛� �삤硫� break
 			}
 			try {
@@ -120,7 +119,6 @@ public class Guest extends Thread{
 			
 			if(this.temp[0] == this.endStay[0] && this.temp[1] == this.endStay[1]) {
 				// �걧�뿉 clean push
-				MainFrame.haveToClean[this.tableNum - 1] = true;
 				Queueing.init("clean.", tableNum);
 				System.out.println("! 큐에 push: " + String.valueOf(this.tableNum) + "클린");
 				break;
@@ -156,7 +154,7 @@ class settingCountThread extends Thread{
 	public void run() {
 		while(true) {
 			
-			if(MainFrame.isSettingDone[myG.tableNum-1]) {
+			if(Queueing.isSettingDone[myG.tableNum-1]) {
 //				MapPane.state[myG.tableNum-1].setText("took " + myG.settingTimer + "s to setting");	// 湲곕떎由� �떆媛� 寃곌낵
 //				MapPane.state[myG.tableNum-1].setText("setting done in " + myG.settingTimer + "s");	// 湲곕떎由� �떆媛� 寃곌낵
 				MapPane.state[myG.tableNum-1].setForeground(Color.BLACK);	// �샊�떆 湲��옄 �깋 諛붽펷�쑝硫� �룎�젮�넄二쇨퀬
@@ -197,7 +195,7 @@ class servingCountThread extends Thread{
 	public void run() {
 		while(true) {
 			
-			if(MainFrame.isServingDone[myG.tableNum-1]) {
+			if(Queueing.isServingDone[myG.tableNum-1]) {
 				try {
 					Thread.sleep(500);	// endStay 怨꾩궛�븯湲곌퉴吏� �옞源� �돩怨�
 				} catch(InterruptedException e) {
