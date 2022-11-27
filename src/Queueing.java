@@ -148,6 +148,7 @@ public class Queueing {
 		String str2;
 		String opr = null;
 
+<<<<<<< HEAD
 		//Find the following operation in order of priority
 		while (true) {
 			Thread.sleep(10);// if queue is empty other robot get operation then opr == null
@@ -167,6 +168,35 @@ public class Queueing {
 		str1 = opr.substring(0, opr.indexOf("."));
 		str2 = opr.substring(opr.indexOf(".") + 1);
 		String[] str = { str1, str2 };
+=======
+		//if another robot do refull operation
+		//other robot do serving operation that finished setting operation tables
+		while(true)
+		{
+			if(!priority_Queue.isEmpty())
+			{
+				opr = priority_Queue.poll();
+				if(opr.equals(null)) continue;
+				break;
+			}
+			else if(!clean_Queue.isEmpty())
+			{
+				opr = clean_Queue.poll();
+				if(opr.equals(null)) continue;
+				break;
+			}
+			else if(!Queue.isEmpty())
+			{
+				opr = Queue.poll();
+				if(opr.equals(null)) continue;
+				break;
+			}	
+			else
+				continue;
+		}
+			
+
+>>>>>>> parent of d2d90ed (우리 로봇 돌아가요 와ㅠ)
 
 		
 		//we return operation and table number to other class of same project

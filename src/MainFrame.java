@@ -200,9 +200,14 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 					visit_xy=dj.list_result();
 					dest=dj.dest_num();
 					mp.setRobot(dj.workRobot(), visit_xy, dest);
+<<<<<<< HEAD
 					
 				}
 				else if(temp_str[0].equals("serving"))	//if "serving"
+=======
+
+				} else if (temp_str[0].equals("serving")) // if "serving"
+>>>>>>> parent of d2d90ed (우리 로봇 돌아가요 와ㅠ)
 				{
 <<<<<<< HEAD
 					// �몢 濡쒕큸 以� �늻媛� �븷 吏�
@@ -331,6 +336,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				// don't need node?
 				visit_xy = dj.list_result();
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
+<<<<<<< HEAD
 
 =======
 				queue.dish = 10;
@@ -345,6 +351,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener{
 				mp.setRobot(dj.workRobot(), visit_xy, dest);
 				
 >>>>>>> parent of b85621c (거의 다 왔어요...)
+=======
+>>>>>>> parent of d2d90ed (우리 로봇 돌아가요 와ㅠ)
 			}
 			
 			
