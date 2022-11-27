@@ -208,6 +208,11 @@ public class MapPane extends JPanel implements ActionListener{
     
     public void paint(Graphics g){
     	super.paint(g);
+<<<<<<< HEAD
+=======
+    	System.out.println(way1.isEmpty());
+    	System.out.println(way2.isEmpty());
+>>>>>>> parent of b85621c (거의 다 왔어요...)
     	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
