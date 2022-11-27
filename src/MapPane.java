@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.Timer;
@@ -155,8 +156,9 @@ public class MapPane extends JPanel implements ActionListener{
 	    			this.way1.add(new Point(position[i][0], position[i][1]));
 	    			this.temp1[0] = position[i][0];
 	    			this.temp1[1] = position[i][1];
-//	    			System.out.println("mapPane1 : " + position[i][0] +"," + position[i][1]);
-//	    			System.out.println("destination1 : " + dest1[0] +","+dest1[1]);
+
+	    			System.out.println("mapPane1 : " + position[i][0] +"," + position[i][1]);
+	    			System.out.println("destination1 : " + dest1[0] +","+dest1[1]);
     			}
     		}
     	}
@@ -169,8 +171,9 @@ public class MapPane extends JPanel implements ActionListener{
 	    			this.way2.add(new Point(position[i][0], position[i][1]));
 	    			this.temp2[0] = position[i][0];
 	    			this.temp2[1] = position[i][1];
-//	    			System.out.println("mapPane2 : " + position[i][0] +"," + position[i][1]);
-//	    			System.out.println("destination2 : " + dest2[0] +","+dest2[1]);
+
+	    			System.out.println("mapPane2 : " + position[i][0] +"," + position[i][1]);
+	    			System.out.println("destination2 : " + dest2[0] +","+dest2[1]);
     			}
     			//System.out.println("mapPane : " + temp2[0] +"," + temp2[1]);
     		}
@@ -205,8 +208,6 @@ public class MapPane extends JPanel implements ActionListener{
     
     public void paint(Graphics g){
     	super.paint(g);
-//    	System.out.println(way1.isEmpty());
-//    	System.out.println(way2.isEmpty());
     	//mapPane 크占쏙옙
     	//g.setColor(Color.LIGHT_GRAY);
     	//g.drawRect(0, 0, getWidth(), getHeight());
@@ -293,6 +294,7 @@ public class MapPane extends JPanel implements ActionListener{
 				flag1 = 0;
 //				System.out.println("flag1 변경 :" + flag1);
 			}
+
 			if(dest1[0] == (x1+robot_front1.getWidth(null)/2) && dest1[1] == (y1+robot_front1.getHeight(null)/2)) {
 				// robot1 arrived to destination.
 				System.out.println("도착");
@@ -331,9 +333,9 @@ public class MapPane extends JPanel implements ActionListener{
 				
 				tempTask(1);
 			}
-		}
-		else {
 			
+		}
+		else {			
 		}
 		
 		if(p2 != null) {
@@ -367,6 +369,7 @@ public class MapPane extends JPanel implements ActionListener{
 //				System.out.println("flag2 변경" + flag2);
 				flag2 = 0;
 			}
+
 			if(dest2[0] == (x2+robot_front1.getWidth(null)/2) && dest2[1] == (y2+robot_front1.getHeight(null)/2)) {
 				// robot2 arrived to destination.
 				
